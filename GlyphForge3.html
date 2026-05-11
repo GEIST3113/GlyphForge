@@ -1,0 +1,3936 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>GlyphForge</title>
+    <link
+      rel="preconnect"
+      href="https://api.fontshare.com"
+    />
+    <link
+      href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/opentype.js@1.3.4/dist/opentype.min.js"></script>
+    <style>
+      /* ── FONTSHARE-INSPIRED MONO: BLACK / WHITE / GREY ─────────────────
+         8-point grid. Clean editorial. No decorative colour.
+         Layout: 3 columns (aside | main | log) + sticky footer.
+      ── */
+      :root {
+        /* ── COLORS ───────────────────────────────────── */
+        --bg: #0d0d0d;
+        --s1: #111111;
+        --s2: #181818;
+        --s3: #222222;
+        --s4: #2e2e2e;
+
+        --border: #2a2a2a;
+        --border2: #3a3a3a;
+
+        --text: #f0f0f0;
+        --muted: #888888;
+        --dim: #484848;
+
+        --acc: #ffffff;
+        --acc2: #d4d4d4;
+        --acc-bg: #ffffff0d;
+
+        --green: #a3e6b4;
+        --green-bg: #a3e6b410;
+
+        --amber: #f5c97a;
+        --amber-bg: #f5c97a10;
+
+        --red: #f08080;
+        --red-bg: #f0808010;
+
+        /* ── RADIUS ───────────────────────────────────── */
+        --r-xs: 4px;
+        --r-sm: 8px;
+        --r-md: 12px;
+        --r-lg: 16px;
+
+        /* ── 8PT GRID SYSTEM ──────────────────────────── */
+        --space-1: 4px;
+        --space-2: 8px;
+        --space-3: 12px;
+        --space-4: 16px;
+        --space-5: 24px;
+        --space-6: 32px;
+        --space-7: 40px;
+        --space-8: 48px;
+        --space-9: 64px;
+
+        /* ── TYPOGRAPHY SCALE (4PT SYSTEM) ───────────── */
+        --fs-xs: 10px;
+        --fs-sm: 12px;
+        --fs-md: 14px;
+        --fs-lg: 16px;
+        --fs-xl: 20px;
+        --fs-2xl: 24px;
+
+        /* ── LAYOUT ───────────────────────────────────── */
+        --sidebar-w: 280px;
+        --log-w: 300px;
+        --main-max: 1400px;
+
+        /* ── FONT STACKS ─────────────────────────────── */
+        --mono: "Courier New", monospace;
+        --ui: -apple-system, "Segoe UI", sans-serif;
+
+        /* ── THEME MODE ───────────────────────────────── */
+        --panel-shadow: 0 0 0 transparent;
+      }
+      body.light {
+        --bg: #f5f5f5;
+
+        --s1: #ffffff;
+        --s2: #fafafa;
+        --s3: #f0f0f0;
+        --s4: #e8e8e8;
+
+        --border: #dddddd;
+        --border2: #cfcfcf;
+
+        --text: #111111;
+        --muted: #666666;
+        --dim: #999999;
+
+        --acc: #000000;
+        --acc2: #222222;
+        --acc-bg: #00000008;
+
+        --panel-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: -apple-system, "Segoe UI", sans-serif;
+        font-size: 12px;
+        line-height: 1.5;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      p,
+      span,
+      button,
+      input,
+      select,
+      textarea,
+      label {
+        font-size: 10px;
+      }
+
+      h1 {
+        font-size: var(--fs-2xl);
+      }
+      h2 {
+        font-size: var(--fs-xl);
+      }
+      h3 {
+        font-size: 12px;
+      }
+      h4 {
+        font-size: var(--fs-md);
+      }
+
+      p,
+      button,
+      input,
+      select,
+      textarea {
+        font-size: var(--fs-sm);
+      }
+
+      /* ── HEADER  40px = 5u ──────────────────────────────────────────── */
+      header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 0 1rem;
+        height: 48px;
+        border-bottom: 1px solid var(--border);
+        background: var(--s1);
+        flex-shrink: 0;
+      }
+      .logo {
+        font-family: "Sentient", Georgia, serif;
+        font-size: 20px;
+        font-style: italic;
+        font-weight: 400;
+        color: var(--text);
+        letter-spacing: -0.5px;
+        line-height: 1;
+      }
+      .logo span {
+        color: var(--muted);
+      }
+      .tagline {
+        font-size: 10px;
+        color: var(--dim);
+      }
+      .hbadge {
+        margin-left: auto;
+        color: var(--dim);
+        border: 1px solid var(--border2);
+        border-radius: 24px;
+        padding: 2px 10px;
+        font-family: var(--ui);
+      }
+
+      /* ── BODY LAYOUT: 3 columns ─────────────────────────────────────── */
+      .app {
+        display: grid;
+        grid-template-columns: 280px 1fr 280px;
+        flex: 1;
+        overflow: hidden;
+        min-height: 0;
+      }
+
+      /* ── STICKY FOOTER  32px = 4u ───────────────────────────────────── */
+      .statusbar {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 0 24px;
+        height: 32px;
+        border-top: 1px solid var(--border);
+        background: var(--s1);
+        color: var(--dim);
+        font-family: var(--ui);
+        flex-shrink: 0;
+      }
+      .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--dim);
+        display: inline-block;
+        margin-right: 4px;
+      }
+      .dot.green {
+        background: var(--green);
+      }
+
+      /* ── SIDEBAR ────────────────────────────────────────────────────── */
+      aside {
+        background: var(--s1);
+        border-right: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        min-height: 0;
+      }
+      .slabel {
+        font-family: var(--ui);
+        color: var(--dim);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        padding: 0 16px;
+        border-bottom: 1px solid var(--border);
+        flex-shrink: 0;
+        gap: 0;
+      }
+
+      /* ── DROP ZONE ──────────────────────────────────────────────────── */
+      .drop {
+        margin: 16px;
+        border: 1px dashed var(--border2);
+        border-radius: var(--r-sm);
+        padding: 24px 16px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        position: relative;
+        flex-shrink: 0;
+      }
+      .drop:hover,
+      .drop.over {
+        border-color: var(--acc2);
+        background: var(--acc-bg);
+      }
+      .drop input {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+      }
+      .drop .di {
+        color: var(--dim);
+        margin-bottom: 8px;
+      }
+      .drop p {
+        color: var(--muted);
+        line-height: 1.6;
+      }
+      .drop p strong {
+        color: var(--text);
+        display: block;
+        margin-bottom: 4px;
+      }
+
+      /* ── GLYPH LIST ─────────────────────────────────────────────────── */
+      .glyph-list {
+        overflow-y: auto;
+        flex: 1;
+        padding: 8px;
+        min-height: 0;
+      }
+      .glyph-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px;
+        border-radius: var(--r-sm);
+        cursor: pointer;
+        border: 1px solid transparent;
+        margin-bottom: 2px;
+        transition: all 0.1s;
+      }
+      .glyph-row:hover {
+        background: var(--s3);
+        border-color: var(--border);
+      }
+      .glyph-row.selected {
+        background: var(--s3);
+        border-color: var(--border2);
+      }
+      .glyph-row.error {
+        border-color: var(--red);
+        background: var(--red-bg);
+      }
+      .gchar {
+        width: 40px;
+        height: 40px;
+        background: #ffffff;
+        border-radius: var(--r-sm);
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+      .gchar canvas {
+        width: 40px;
+        height: 40px;
+      }
+      .gmeta {
+        flex: 1;
+        min-width: 0;
+      }
+      .gname {
+        font-size: 12px;
+        font-weight: 500;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .ginfo {
+        color: var(--muted);
+        font-family: var(--ui);
+        margin-top: 2px;
+      }
+      .gbadge {
+        padding: 2px 6px;
+        border-radius: 10px;
+        flex-shrink: 0;
+      }
+      .gbadge.ok {
+        background: var(--green-bg);
+        color: var(--green);
+        border: 1px solid #a3e6b430;
+      }
+      .gbadge.warn {
+        background: var(--amber-bg);
+        color: var(--amber);
+        border: 1px solid #f5c97a30;
+      }
+      .gbadge.err {
+        background: var(--red-bg);
+        color: var(--red);
+        border: 1px solid #f0808030;
+      }
+
+      /* ── MAIN (middle column) ───────────────────────────────────────── */
+      main {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        min-height: 0;
+      }
+      .tabs {
+        display: flex;
+        height: 40px;
+        border-bottom: 1px solid var(--border);
+        background: var(--s1);
+        padding: 0 16px;
+        flex-shrink: 0;
+        align-items: stretch;
+        justify-content: center;
+      }
+      .tab {
+        display: flex;
+        align-items: center;
+        padding: 0 14px;
+        cursor: pointer;
+        color: var(--muted);
+        border-bottom: 1px solid transparent;
+        transition: all 0.15s;
+        white-space: nowrap;
+        letter-spacing: 0.2px;
+      }
+      .tab:hover {
+        color: var(--text);
+      }
+      .tab.active {
+        color: var(--text);
+        border-bottom-color: var(--text);
+      }
+      .panel {
+        flex: 1;
+        overflow-y: auto;
+        padding: 1rem 16.666%;
+        display: none;
+        min-height: 0;
+      }
+      .panel.active {
+        display: block;
+      }
+
+      /* ── LOG PANEL (right column) ───────────────────────────────────── */
+      .log-panel {
+        background: var(--s1);
+        border-left: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        min-height: 0;
+      }
+      .log-panel .slabel {
+        border-right: none;
+      }
+      #log {
+        flex: 1;
+        overflow-y: auto;
+        padding: 8px 12px;
+        font-family: var(--ui);
+        line-height: 1.8;
+        min-height: 0;
+      }
+      .ll {
+        display: flex;
+        gap: 8px;
+      }
+      .ll .ts {
+        color: var(--dim);
+        flex-shrink: 0;
+      }
+      .ll.ok .m {
+        color: var(--green);
+      }
+      .ll.warn .m {
+        color: var(--amber);
+      }
+      .ll.err .m {
+        color: var(--red);
+      }
+      .ll.info .m {
+        color: var(--muted);
+      }
+
+      /* ── CARDS ──────────────────────────────────────────────────────── */
+      .card {
+        background: var(--s2);
+        border: 1px solid var(--border);
+        border-radius: var(--r-sm);
+        padding: 16px;
+        margin-bottom: 16px;
+      }
+      .card:last-child {
+        margin-bottom: 0;
+      }
+      .card h3 {
+        color: var(--muted);
+        font-family: var(--ui);
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        margin-bottom: 16px;
+      }
+
+      /* ── FORMS ──────────────────────────────────────────────────────── */
+      .fg {
+        display: grid;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+      .fg.c2 {
+        grid-template-columns: 1fr 1fr;
+      }
+      .fg.c3 {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+      .fg.c1 {
+        grid-template-columns: 1fr;
+      }
+      .fg:last-child {
+        margin-bottom: 0;
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .field label {
+        color: var(--muted);
+        font-family: var(--ui);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .field input,
+      .field select,
+      .field textarea {
+        background: var(--s3);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 0 12px;
+        height: 32px;
+        border-radius: var(--r-sm);
+        outline: none;
+        transition: border-color 0.15s;
+        font-family: inherit;
+      }
+      .field textarea {
+        height: auto;
+        padding: 8px 12px;
+        resize: vertical;
+      }
+      .field input:focus,
+      .field select:focus {
+        border-color: var(--border2);
+      }
+      .field select option {
+        background: var(--s3);
+      }
+      .field input[type="range"] {
+        padding: 0;
+        background: none;
+        border: none;
+        height: auto;
+      }
+
+      /* ── TOGGLES ────────────────────────────────────────────────────── */
+      .trow {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 12px;
+        height: 48px;
+        border-radius: var(--r-sm);
+        background: var(--s3);
+        border: 1px solid var(--border);
+        margin-bottom: 8px;
+        cursor: pointer;
+        gap: 16px;
+      }
+      .trow:hover {
+        border-color: var(--border2);
+      }
+      .trow .ti {
+        flex: 1;
+      }
+      .trow .ti strong {
+        display: block;
+      }
+      .trow .ti span {
+        color: var(--muted);
+      }
+      .tog {
+        width: 32px;
+        height: 16px;
+        background: var(--border2);
+        border-radius: 8px;
+        position: relative;
+        flex-shrink: 0;
+        transition: background 0.2s;
+      }
+      .tog::after {
+        content: "";
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--muted);
+        top: 2px;
+        left: 2px;
+        transition:
+          left 0.2s,
+          background 0.2s;
+      }
+      .tog.on {
+        background: var(--s4);
+        border: 1px solid var(--border2);
+      }
+      .tog.on::after {
+        left: 18px;
+        background: var(--text);
+      }
+
+      /* ── BUTTONS ────────────────────────────────────────────────────── */
+      .brow {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 8px;
+      }
+      .btn {
+        padding: 0 16px;
+        height: 32px;
+        border-radius: var(--r-sm);
+        border: 1px solid var(--border2);
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+        transition: all 0.15s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: inherit;
+        white-space: nowrap;
+        letter-spacing: 0.2px;
+      }
+      .btn:hover {
+        border-color: var(--text);
+        color: var(--text);
+        background: var(--acc-bg);
+      }
+      .btn:active {
+        transform: scale(0.98);
+      }
+      .btn:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
+      .btn.primary {
+        background: var(--text);
+        border-color: var(--text);
+        color: var(--bg);
+        font-weight: 600;
+      }
+      .btn.primary:hover {
+        background: var(--acc2);
+        border-color: var(--acc2);
+      }
+      .btn.success {
+        background: var(--text);
+        border-color: var(--text);
+        color: var(--bg);
+        font-weight: 600;
+        height: 40px;
+        padding: 0 24px;
+      }
+      .btn.success:hover {
+        background: var(--acc2);
+        border-color: var(--acc2);
+      }
+      .btn.danger {
+        border-color: var(--red);
+        color: var(--red);
+      }
+      .btn.danger:hover {
+        background: var(--red-bg);
+      }
+      .btn.ghost {
+        border-color: transparent;
+        color: var(--dim);
+      }
+      .btn.ghost:hover {
+        border-color: var(--border);
+        color: var(--muted);
+        background: none;
+      }
+
+      /* ── CLEAR BTN in slabel ────────────────────────────────────────── */
+      .clear-btn {
+        margin-left: auto;
+        background: none;
+        border: 1px solid var(--border2);
+        color: var(--dim);
+        cursor: pointer;
+        font-family: var(--ui);
+        padding: 10px 0.5rem;
+        border-radius: var(--r-lg);
+        transition: all 0.15s;
+        display: none;
+        line-height: 1;
+        height: 20px;
+        align-items: center;
+      }
+      .clear-btn:hover {
+        border-color: var(--red);
+        color: var(--red);
+      }
+      .clear-btn.visible {
+        display: flex;
+      }
+
+      /* ── METRIC CARDS ───────────────────────────────────────────────── */
+      .mcard {
+        background: var(--s3);
+        border: 1px solid var(--border);
+        border-radius: var(--r-sm);
+        padding: 16px;
+        text-align: center;
+      }
+      .mcard .mv {
+        font-family: var(--ui);
+        font-weight: 600;
+        color: var(--text);
+        line-height: 1;
+      }
+      .mcard .ml {
+        color: var(--muted);
+        margin-top: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .mgrid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+
+      /* ── PREVIEW CANVAS ─────────────────────────────────────────────── */
+      #prev-canvas,
+      #build-prev-canvas {
+        background: #ffffff;
+        border-radius: var(--r-sm);
+        width: 100%;
+        height: 160px;
+        display: block;
+        border: 1px solid var(--border);
+      }
+      .prev-ctrl {
+        display: flex;
+        gap: 8px;
+        margin-top: 8px;
+        align-items: center;
+      }
+      .prev-ctrl input[type="text"] {
+        flex: 1;
+        background: var(--s3);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 0 12px;
+        height: 32px;
+        border-radius: var(--r-sm);
+        outline: none;
+      }
+      .prev-ctrl input[type="text"]:focus {
+        border-color: var(--border2);
+      }
+      .prev-ctrl input[type="number"] {
+        width: 64px;
+        background: var(--s3);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 0 8px;
+        height: 32px;
+        border-radius: var(--r-sm);
+        outline: none;
+        font-family: var(--ui);
+      }
+
+      /* ── GLYPH DETAIL ───────────────────────────────────────────────── */
+      #glyph-canvas {
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: var(--r-sm);
+        display: block;
+      }
+      .gd-wrap {
+        display: flex;
+        gap: 16px;
+      }
+      .gd-stats {
+        flex: 1;
+      }
+      .srow {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .srow:last-child {
+        border-bottom: none;
+      }
+      .srow .k {
+        color: var(--muted);
+      }
+      .srow .v {
+        font-family: var(--ui);
+        color: var(--text);
+      }
+
+      /* ── PROGRESS ───────────────────────────────────────────────────── */
+      .progress-wrap {
+        display: none;
+        margin-top: 8px;
+      }
+      .progress-wrap.show {
+        display: block;
+      }
+      .pbar-bg {
+        background: var(--s3);
+        border-radius: 4px;
+        height: 2px;
+        overflow: hidden;
+      }
+      .pbar {
+        height: 100%;
+        background: var(--text);
+        border-radius: 4px;
+        transition: width 0.1s;
+        width: 0%;
+      }
+      .ptext {
+        color: var(--muted);
+        margin-top: 4px;
+        font-family: var(--ui);
+      }
+
+      /* ── EMPTY STATE ────────────────────────────────────────────────── */
+      .empty {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        gap: 8px;
+        color: var(--dim);
+        padding: 24px;
+      }
+      .empty-icon {
+        opacity: 0.2;
+      }
+      .empty p {
+        color: var(--dim);
+        text-align: center;
+        max-width: 200px;
+        line-height: 1.6;
+      }
+
+      hr.sep {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 16px 0;
+      }
+      ::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--border2);
+        border-radius: 2px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .hidden {
+        display: none !important;
+      }
+      code {
+        background: var(--s3);
+        padding: 2px 6px;
+        border-radius: var(--r-sm);
+        font-family: var(--ui);
+        border: 1px solid var(--border);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo">GlyphForge</div>
+      <div class="tagline">
+        Build OpenType fonts from SVG glyphs · geometric kerning · true-to-size
+      </div>
+      <div class="hbadge">v1.0</div>
+    </header>
+
+    <div class="app">
+      <!-- SIDEBAR -->
+      <aside>
+        <div class="slabel">
+          <span>Glyphs</span>
+          <span
+            id="glyph-count"
+            style="margin-left: 8px; color: var(--dim)"
+          ></span>
+          <button
+            id="btn-clear"
+            onclick="clearGlyphs()"
+            title="Clear all glyphs"
+            class="clear-btn"
+          >
+            ✕ CLEAR
+          </button>
+        </div>
+        <div
+          class="drop"
+          id="drop"
+        >
+          <input
+            type="file"
+            id="file-input"
+            accept=".svg"
+            multiple
+          />
+          <input
+            type="file"
+            id="folder-input"
+            webkitdirectory
+            mozdirectory
+            multiple
+            style="display: none"
+          />
+          <div class="di">⊞</div>
+          <p>
+            <strong>Drop SVG files or a folder</strong>Named
+            <code>uniXXXX.svg</code>, <code>A.svg</code>,
+            <code>0.svg</code> etc.
+          </p>
+          <button
+            onclick="document.getElementById('folder-input').click()"
+            class="btn"
+            style="
+              margin-top: 8px;
+              height: 24px;
+              padding: 0 10px;
+              color: var(--muted);
+            "
+          >
+            📁 Choose folder
+          </button>
+        </div>
+        <div
+          class="glyph-list"
+          id="glyph-list"
+        >
+          <div
+            class="empty"
+            id="empty-glyphs"
+          >
+            <div class="empty-icon">◻</div>
+            <p>Drop SVG files to begin. Each file becomes one glyph.</p>
+          </div>
+        </div>
+      </aside>
+
+      <!-- MAIN -->
+      <main>
+        <div class="tabs">
+          <div
+            class="tab active"
+            data-tab="settings"
+          >
+            Font Settings
+          </div>
+          <div
+            class="tab"
+            data-tab="metrics"
+          >
+            Metrics
+          </div>
+          <div
+            class="tab"
+            data-tab="kerning"
+          >
+            Kerning
+          </div>
+          <div
+            class="tab"
+            data-tab="build"
+          >
+            Build & Export
+          </div>
+        </div>
+
+        <!-- SETTINGS -->
+        <div
+          class="panel active"
+          id="tab-settings"
+        >
+          <div class="card">
+            <h3>
+              Font Name Fields
+              <span
+                style="
+                  color: var(--dim);
+                  font-family: var(--ui);
+                  font-weight: normal;
+                  margin-left: 6px;
+                "
+                >OpenType name table</span
+              >
+            </h3>
+            <div class="fg c2">
+              <div class="field">
+                <label
+                  >Family Name
+                  <span style="color: var(--dim)">(nameID 1)</span></label
+                >
+                <input
+                  type="text"
+                  id="s-family"
+                  value="MyFont"
+                  placeholder="MyFont"
+                  oninput="autoFillNames()"
+                />
+              </div>
+              <div class="field">
+                <label
+                  >Subfamily
+                  <span style="color: var(--dim)">(nameID 2)</span></label
+                >
+                <select
+                  id="s-sub"
+                  onchange="autoFillNames()"
+                >
+                  <option>Regular</option>
+                  <option>Bold</option>
+                  <option>Italic</option>
+                  <option>Bold Italic</option>
+                  <option>Light</option>
+                  <option>Medium</option>
+                  <option>SemiBold</option>
+                  <option>ExtraBold</option>
+                  <option>Black</option>
+                </select>
+              </div>
+            </div>
+            <div class="fg c2">
+              <div class="field">
+                <label
+                  >Full Name
+                  <span style="color: var(--dim)">(nameID 4)</span></label
+                >
+                <input
+                  type="text"
+                  id="s-fullname"
+                  placeholder="MyFont Regular"
+                />
+              </div>
+              <div class="field">
+                <label
+                  >PostScript Name
+                  <span style="color: var(--dim)">(nameID 6)</span></label
+                >
+                <input
+                  type="text"
+                  id="s-postscript"
+                  placeholder="MyFont-Regular"
+                />
+              </div>
+            </div>
+            <div class="fg c2">
+              <div class="field">
+                <label
+                  >Preferred Family
+                  <span style="color: var(--dim)">(nameID 16)</span></label
+                >
+                <input
+                  type="text"
+                  id="s-preferred-family"
+                  placeholder="MyFont (for style-linked families)"
+                />
+              </div>
+              <div class="field">
+                <label
+                  >Unique Font ID
+                  <span style="color: var(--dim)">(nameID 3)</span></label
+                >
+                <input
+                  type="text"
+                  id="s-unique-id"
+                  placeholder="auto-generated"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Creator & Version</h3>
+            <div class="fg c2">
+              <div class="field">
+                <label
+                  >Designer
+                  <span style="color: var(--dim)">(nameID 9)</span></label
+                >
+                <input
+                  type="text"
+                  id="s-designer"
+                  placeholder="Full name"
+                />
+              </div>
+              <div class="field">
+                <label
+                  >Designer URL
+                  <span style="color: var(--dim)">(nameID 12)</span></label
+                >
+                <input
+                  type="text"
+                  id="s-designer-url"
+                  placeholder="https://yoursite.com"
+                />
+              </div>
+            </div>
+            <div class="fg c2">
+              <div class="field">
+                <label
+                  >Manufacturer
+                  <span style="color: var(--dim)">(nameID 8)</span></label
+                >
+                <input
+                  type="text"
+                  id="s-manufacturer"
+                  placeholder="Studio or foundry name"
+                />
+              </div>
+              <div class="field">
+                <label
+                  >Version
+                  <span style="color: var(--dim)">(nameID 5)</span></label
+                >
+                <input
+                  type="text"
+                  id="s-version"
+                  value="Version 1.000"
+                  placeholder="Version 1.000"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Description & Copyright</h3>
+            <div class="fg c1">
+              <div class="field">
+                <label
+                  >Description
+                  <span style="color: var(--dim)">(nameID 10)</span></label
+                >
+                <textarea
+                  id="s-description"
+                  rows="2"
+                  class="field"
+                  style="width: 100%; resize: vertical"
+                  placeholder="Brief description of the font and its intended use."
+                ></textarea>
+              </div>
+            </div>
+            <div class="fg c1">
+              <div class="field">
+                <label
+                  >Copyright
+                  <span style="color: var(--dim)">(nameID 0)</span></label
+                >
+                <input
+                  type="text"
+                  id="s-copyright"
+                  placeholder="Copyright © 2025 Your Name. All rights reserved."
+                />
+                <button
+                  onclick="fillCopyright()"
+                  style="
+                    margin-top: 4px;
+                    background: var(--s3);
+                    border: 1px solid var(--border);
+                    color: var(--muted);
+                    padding: 3px 9px;
+                    border-radius: var(--r-sm);
+                    cursor: pointer;
+                    font-family: inherit;
+                  "
+                >
+                  Auto-fill with current year
+                </button>
+              </div>
+            </div>
+            <div class="fg c2">
+              <div class="field">
+                <label
+                  >License Description
+                  <span style="color: var(--dim)">(nameID 13)</span></label
+                >
+                <input
+                  type="text"
+                  id="s-license"
+                  placeholder="e.g. OFL 1.1, Proprietary, CC BY 4.0"
+                />
+              </div>
+              <div class="field">
+                <label
+                  >License URL
+                  <span style="color: var(--dim)">(nameID 14)</span></label
+                >
+                <input
+                  type="text"
+                  id="s-license-url"
+                  placeholder="https://scripts.sil.org/OFL"
+                />
+              </div>
+            </div>
+            <div
+              class="fg c1"
+              style="margin-top: 4px"
+            >
+              <p style="color: var(--dim); line-height: 1.7">
+                Quick templates:
+                <button
+                  onclick="setLicense('ofl')"
+                  style="
+                    background: var(--s3);
+                    border: 1px solid var(--border);
+                    color: var(--muted);
+                    padding: 2px 7px;
+                    border-radius: 3px;
+                    cursor: pointer;
+                    margin-left: 4px;
+                    font-family: inherit;
+                  "
+                >
+                  OFL 1.1
+                </button>
+                <button
+                  onclick="setLicense('prop')"
+                  style="
+                    background: var(--s3);
+                    border: 1px solid var(--border);
+                    color: var(--muted);
+                    padding: 2px 7px;
+                    border-radius: 3px;
+                    cursor: pointer;
+                    margin-left: 2px;
+                    font-family: inherit;
+                  "
+                >
+                  Proprietary
+                </button>
+                <button
+                  onclick="setLicense('cc')"
+                  style="
+                    background: var(--s3);
+                    border: 1px solid var(--border);
+                    color: var(--muted);
+                    padding: 2px 7px;
+                    border-radius: 3px;
+                    cursor: pointer;
+                    margin-left: 2px;
+                    font-family: inherit;
+                  "
+                >
+                  CC BY 4.0
+                </button>
+              </p>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Embedding</h3>
+            <div
+              class="trow"
+              onclick="setEmbed(0)"
+              id="emb-0"
+            >
+              <div class="ti">
+                <strong>Installable (0) — Recommended</strong
+                ><span>Freely embeddable, editable, no restrictions</span>
+              </div>
+              <div
+                class="tog on"
+                id="emb-tog-0"
+              ></div>
+            </div>
+            <div
+              class="trow"
+              onclick="setEmbed(8)"
+              id="emb-8"
+            >
+              <div class="ti">
+                <strong>Editable (8)</strong
+                ><span>Embeddable for document editing</span>
+              </div>
+              <div
+                class="tog"
+                id="emb-tog-8"
+              ></div>
+            </div>
+            <div
+              class="trow"
+              onclick="setEmbed(4)"
+              id="emb-4"
+            >
+              <div class="ti">
+                <strong>Preview &amp; Print only (4)</strong
+                ><span>View and print, no editing</span>
+              </div>
+              <div
+                class="tog"
+                id="emb-tog-4"
+              ></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Glyph Naming Convention</h3>
+            <p
+              style="color: var(--muted); line-height: 1.7; margin-bottom: 8px"
+            >
+              Files are matched to unicode codepoints by filename.<br />
+              <code>uni0041.svg</code> or <code>uni0041.svg</code> → U+0041
+              (A)<br />
+              <code>A.svg</code> → U+0041 · <code>a.svg</code> → U+0061 ·
+              <code>0.svg</code> → U+0030
+            </p>
+          </div>
+        </div>
+
+        <!-- METRICS -->
+        <div
+          class="panel"
+          id="tab-metrics"
+        >
+          <div
+            class="mgrid"
+            id="metrics-grid"
+          >
+            <div class="mcard">
+              <div
+                class="mv"
+                id="m-glyphs"
+              >
+                0
+              </div>
+              <div class="ml">Glyphs</div>
+            </div>
+            <div class="mcard">
+              <div
+                class="mv"
+                id="m-upm"
+              >
+                1000
+              </div>
+              <div class="ml">Units/Em</div>
+            </div>
+            <div class="mcard">
+              <div
+                class="mv"
+                id="m-cap"
+              >
+                1000
+              </div>
+              <div class="ml">Cap Height</div>
+            </div>
+            <div class="mcard">
+              <div
+                class="mv"
+                id="m-asc"
+              >
+                1000
+              </div>
+              <div class="ml">Ascender</div>
+            </div>
+          </div>
+
+          <div
+            class="card"
+            style="border-color: var(--amber); background: var(--amber-bg)"
+          >
+            <h3 style="color: var(--amber)">⚠ Bounding Box Note</h3>
+            <p style="color: var(--text); line-height: 1.7">
+              The <strong>cap=1in bounding box</strong> is controlled by
+              <code>usWinAscent=cap</code> and <code>usWinDescent=0</code> —
+              hardcoded in the build, not these fields. The Ascender/Descender
+              fields below only affect <strong>line spacing</strong> between
+              text lines. Leave them at 1000/0 unless you know what you're
+              doing.
+            </p>
+          </div>
+
+          <div class="card">
+            <h3>Units Per Em &amp; Vertical Metrics</h3>
+
+            <!-- All critical metrics are HARDCODED as hidden inputs.
+             Browser cannot cache them. Values are always correct. -->
+            <input
+              type="hidden"
+              id="me-upm"
+              value="1000"
+            />
+            <input
+              type="hidden"
+              id="me-cap"
+              value="1000"
+            />
+            <input
+              type="hidden"
+              id="me-asc"
+              value="1000"
+            />
+            <input
+              type="hidden"
+              id="me-desc"
+              value="0"
+            />
+            <input
+              type="hidden"
+              id="me-lg"
+              value="0"
+            />
+
+            <!-- Display only — not submitted, not read by JS -->
+            <div
+              class="mgrid"
+              style="grid-template-columns: repeat(3, 1fr); margin-bottom: 10px"
+            >
+              <div class="mcard">
+                <div class="mv">1000</div>
+                <div class="ml">Units/Em</div>
+              </div>
+              <div class="mcard">
+                <div class="mv">1000</div>
+                <div class="ml">Cap Height</div>
+              </div>
+              <div class="mcard">
+                <div class="mv">1000</div>
+                <div class="ml">Ascender</div>
+              </div>
+            </div>
+            <p style="color: var(--muted); line-height: 1.7">
+              UPM=1000, Cap=1000, Ascender=1000, Descender=0 are fixed. This
+              guarantees cap=1in in Illustrator is exactly 1in of ink — no
+              browser cache can change these values.
+            </p>
+
+            <!-- x-Height is safe to let user set — doesn't affect bounding box -->
+            <div
+              class="fg c2"
+              style="margin-top: 10px"
+            >
+              <div class="field">
+                <label
+                  >x-Height
+                  <span style="color: var(--dim)"
+                    >(lowercase reference, default 700)</span
+                  ></label
+                >
+                <input
+                  type="number"
+                  id="me-xh"
+                  value="700"
+                  min="100"
+                  max="1000"
+                />
+              </div>
+              <div class="field">
+                <label
+                  >Line Gap
+                  <span style="color: var(--dim)"
+                    >(extra space between lines)</span
+                  ></label
+                >
+                <input
+                  type="number"
+                  id="me-lg-vis"
+                  value="0"
+                  min="0"
+                  max="500"
+                  oninput="document.getElementById('me-lg').value = this.value"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Height Normalization</h3>
+            <div
+              class="trow"
+              onclick="tog('normalize')"
+            >
+              <div class="ti">
+                <strong>Uniform Cap Height</strong
+                ><span
+                  >Scale every glyph so its height = Cap Height. Preserves
+                  aspect ratio.</span
+                >
+              </div>
+              <div
+                class="tog on"
+                id="opt-normalize"
+              ></div>
+            </div>
+            <div
+              class="trow"
+              onclick="tog('flip-y')"
+            >
+              <div class="ti">
+                <strong>Flip Y axis</strong
+                ><span
+                  >SVG y-axis points down; font y-axis points up. Required for
+                  most SVGs.</span
+                >
+              </div>
+              <div
+                class="tog on"
+                id="opt-flip-y"
+              ></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Side Bearings</h3>
+            <div
+              class="trow"
+              onclick="tog('zero-bearings')"
+            >
+              <div class="ti">
+                <strong>Zero Side Bearings</strong
+                ><span
+                  >Set advance width = xMax, shift outline so xMin = 0. Correct
+                  for italic/script/display fonts where outlines fill the full
+                  glyph width. Turn OFF for upright fonts with intentional
+                  spacing.</span
+                >
+              </div>
+              <div
+                class="tog on"
+                id="opt-zero-bearings"
+              ></div>
+            </div>
+            <div
+              style="margin-top: 10px"
+              class="fg c3"
+            >
+              <div class="field">
+                <label>Left Bearing (when not zeroed)</label>
+                <input
+                  type="number"
+                  id="me-lsb"
+                  value="0"
+                  placeholder="original"
+                />
+              </div>
+              <div class="field">
+                <label>Right Bearing (when not zeroed)</label>
+                <input
+                  type="number"
+                  id="me-rsb"
+                  value="0"
+                  placeholder="original"
+                />
+              </div>
+              <div class="field">
+                <label>Uniform Bearing Override</label>
+                <select id="me-bear-mode">
+                  <option value="original">Keep SVG width as advance</option>
+                  <option
+                    value="zero"
+                    selected
+                  >
+                    Zero both (xMin→0, adv=xMax)
+                  </option>
+                  <option value="custom">Custom LSB + RSB values</option>
+                </select>
+              </div>
+            </div>
+            <p style="color: var(--muted); line-height: 1.7; margin-top: 8px">
+              <strong style="color: var(--text)">Italic/script/display:</strong>
+              use Zero.
+              <strong style="color: var(--text)">Upright/serif/sans:</strong>
+              use Original or Custom. The kern algorithm works correctly either
+              way — it reads the actual outline, not the advance width.
+            </p>
+          </div>
+        </div>
+
+        <!-- KERNING -->
+        <div
+          class="panel"
+          id="tab-kerning"
+        >
+          <div class="card">
+            <h3>Touch Kerning</h3>
+            <p
+              style="color: var(--muted); line-height: 1.7; margin-bottom: 12px"
+            >
+              Analytical bezier kern — walks each glyph's actual path curves
+              mathematically, no canvas rasterization. Samples right and left
+              silhouettes at every Y level with sub-unit precision. Works
+              correctly for any font type: italic, upright, script, display,
+              variable-width. Asymmetric pairs (AB ≠ BA) computed independently.
+            </p>
+            <div
+              class="trow"
+              onclick="tog('do-kern')"
+            >
+              <div class="ti">
+                <strong>Compute Touch Kerning</strong
+                ><span
+                  >Runs after build — may take 5–20 seconds for large glyph
+                  sets</span
+                >
+              </div>
+              <div
+                class="tog on"
+                id="opt-do-kern"
+              ></div>
+            </div>
+            <div
+              class="fg c2"
+              style="margin-top: 10px"
+            >
+              <div class="field">
+                <label>Gap (font units, 0 = flush touch)</label>
+                <input
+                  type="number"
+                  id="k-gap"
+                  value="0"
+                  min="-50"
+                  max="200"
+                />
+              </div>
+              <input
+                type="hidden"
+                id="k-res"
+                value="2"
+              />
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>How It Works</h3>
+            <p style="color: var(--muted); line-height: 1.7">
+              For each pair (A→B): cubic/quadratic bezier segments are walked
+              parametrically, sampling x at each Y sub-unit row.
+              <code
+                >K = max over all rows of (rightEdge_A − leftEdge_B − advWidth_A
+                + gap)</code
+              >. Taking the max ensures the tightest kern with no overlap at any
+              Y. Both directions (A→B and B→A) are computed independently —
+              correct asymmetry guaranteed. Positive kern (gap) values are also
+              stored, needed for curved upright letters that visually appear too
+              tight.
+            </p>
+          </div>
+
+          <div
+            id="kern-progress"
+            class="progress-wrap"
+          >
+            <div class="pbar-bg">
+              <div
+                class="pbar"
+                id="pbar"
+              ></div>
+            </div>
+            <div
+              class="ptext"
+              id="ptext"
+            >
+              Computing...
+            </div>
+          </div>
+        </div>
+
+        <!-- PREVIEW -->
+        <!-- Hidden legacy canvases kept for JS compatibility -->
+        <canvas
+          id="prev-canvas"
+          width="1"
+          height="1"
+          style="display: none"
+        ></canvas>
+        <canvas
+          id="glyph-canvas"
+          width="140"
+          height="140"
+          style="display: none"
+        ></canvas>
+        <div
+          id="gd-stats"
+          style="display: none"
+        ></div>
+
+        <!-- BUILD -->
+        <div
+          class="panel"
+          id="tab-build"
+        >
+          <!-- Step 1: Build -->
+          <div class="card">
+            <h3>Step 1 — Build</h3>
+            <p
+              style="color: var(--muted); line-height: 1.7; margin-bottom: 10px"
+            >
+              Converts your SVGs into font glyphs, normalizes heights, computes
+              kerning. Result is held in memory — inspect the preview before
+              downloading.
+            </p>
+            <div class="brow">
+              <button
+                class="btn primary"
+                id="btn-build"
+                onclick="buildFont()"
+              >
+                ⚙ Build Font
+              </button>
+            </div>
+            <p
+              id="build-family-display"
+              style="
+                color: var(--dim);
+                font-family: var(--ui);
+                margin-top: 6px;
+                min-height: 14px;
+              "
+            ></p>
+            <p style="color: var(--amber); line-height: 1.6; margin-top: 2px">
+              Remove the old font from your system before installing.
+              macOS/Windows cache fonts by family name — old metric values stick
+              until you remove the old file.
+            </p>
+            <div
+              id="build-progress"
+              class="progress-wrap"
+              style="margin-top: 10px"
+            >
+              <div class="pbar-bg">
+                <div
+                  class="pbar"
+                  id="build-pbar"
+                ></div>
+              </div>
+              <div
+                class="ptext"
+                id="build-ptext"
+              >
+                Building...
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: Preview (shown after build) -->
+          <div
+            class="card hidden"
+            id="build-preview-card"
+          >
+            <h3>Step 2 — Preview</h3>
+            <canvas
+              id="build-prev-canvas"
+              style="
+                background: #fff;
+                border-radius: var(--r-sm);
+                width: 100%;
+                height: 160px;
+                display: block;
+                border: 1px solid var(--border);
+              "
+            ></canvas>
+            <div
+              style="
+                display: flex;
+                gap: 8px;
+                margin-top: 8px;
+                align-items: center;
+              "
+            >
+              <input
+                type="text"
+                id="build-prev-text"
+                value="1234567890"
+                style="
+                  flex: 1;
+                  background: var(--s2);
+                  border: 1px solid var(--border);
+                  color: var(--text);
+                  padding: 6px 9px;
+                  border-radius: var(--r-sm);
+                  outline: none;
+                "
+                oninput="renderBuildPreview()"
+              />
+              <input
+                type="number"
+                id="build-prev-size"
+                value="90"
+                min="12"
+                max="300"
+                style="
+                  width: 60px;
+                  background: var(--s2);
+                  border: 1px solid var(--border);
+                  color: var(--text);
+                  padding: 6px 8px;
+                  border-radius: var(--r-sm);
+                  outline: none;
+                  font-family: var(--ui);
+                "
+                oninput="renderBuildPreview()"
+              />
+              <select
+                id="build-prev-bg"
+                onchange="renderBuildPreview()"
+                style="
+                  background: var(--s2);
+                  border: 1px solid var(--border);
+                  color: var(--text);
+                  padding: 6px 8px;
+                  border-radius: var(--r-sm);
+                  outline: none;
+                "
+              >
+                <option value="white">White</option>
+                <option value="black">Dark</option>
+                <option value="grid">Grid</option>
+              </select>
+            </div>
+
+            <!-- Kern pair inspector -->
+            <div
+              style="
+                margin-top: 10px;
+                display: flex;
+                gap: 8px;
+                align-items: center;
+              "
+            >
+              <span style="color: var(--muted)">Check kern pair:</span>
+              <input
+                type="text"
+                id="kern-c1"
+                maxlength="1"
+                placeholder="A"
+                style="
+                  width: 38px;
+                  text-align: center;
+                  background: var(--s2);
+                  border: 1px solid var(--border);
+                  color: var(--text);
+                  padding: 5px;
+                  border-radius: var(--r-sm);
+                  outline: none;
+                "
+                oninput="checkKernPair()"
+              />
+              <input
+                type="text"
+                id="kern-c2"
+                maxlength="1"
+                placeholder="V"
+                style="
+                  width: 38px;
+                  text-align: center;
+                  background: var(--s2);
+                  border: 1px solid var(--border);
+                  color: var(--text);
+                  padding: 5px;
+                  border-radius: var(--r-sm);
+                  outline: none;
+                "
+                oninput="checkKernPair()"
+              />
+              <span
+                id="kern-result"
+                style="font-family: var(--ui); color: var(--acc2)"
+                >—</span
+              >
+            </div>
+          </div>
+
+          <!-- Step 3: Export (shown after build) -->
+          <div
+            class="card hidden"
+            id="build-export-card"
+          >
+            <h3>Step 3 — Export</h3>
+            <div class="fg c2">
+              <div class="field">
+                <label>Output filename</label
+                ><input
+                  type="text"
+                  id="out-name"
+                  value="MyFont"
+                  data-touched="false"
+                  oninput="this.dataset.touched = 'true'"
+                />
+              </div>
+              <div class="field">
+                <label>Format</label>
+                <select id="out-fmt">
+                  <option value="otf">OTF (OpenType/CFF)</option>
+                </select>
+              </div>
+            </div>
+            <div
+              id="build-stats"
+              style="
+                color: var(--muted);
+                font-family: var(--ui);
+                margin-bottom: 10px;
+                line-height: 1.9;
+              "
+            ></div>
+            <div class="brow">
+              <button
+                class="btn success"
+                id="btn-export"
+                onclick="exportFont()"
+              >
+                ⬇ Download Font
+              </button>
+              <button
+                class="btn"
+                style="height: 40px; padding: 0 16px"
+                onclick="buildFont()"
+              >
+                ↺ Rebuild
+              </button>
+            </div>
+          </div>
+
+          <!-- Summary -->
+          <div class="card">
+            <h3>Build Summary</h3>
+            <div
+              id="build-summary"
+              style="
+                color: var(--muted);
+                line-height: 2;
+                font-family: var(--ui);
+              "
+            >
+              Load glyphs to see summary.
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- LOG PANEL (right column) -->
+      <div class="log-panel">
+        <div class="slabel">
+          <span>Log</span>
+          <button
+            onclick="document.getElementById('log').innerHTML = ''"
+            title="Clear log"
+            class="clear-btn visible"
+          >
+            ✕ CLEAR
+          </button>
+        </div>
+        <div id="log"></div>
+      </div>
+    </div>
+
+    <div class="statusbar">
+      <span
+        ><span
+          class="dot"
+          id="status-dot"
+        ></span
+        ><span id="status-text">No glyphs loaded</span></span
+      >
+      <span id="status-count"></span>
+      <span style="margin-left: auto"
+        >&copy; 2026 GlyphForge | All Rights Reserved · opentype.js
+      </span>
+    </div>
+
+    <script>
+      // ── STATE ──────────────────────────────────────────────────────────────────
+      const glyphs = {}; // codepoint (number) → { char, name, svgPath, vw, vh, pathCmds, fontPath }
+      let builtFont = null;
+      let buildCounter = 0; // opentype.Font object (for preview rendering)
+      let builtFontAB = null; // ArrayBuffer with kern table injected (for download)
+      let builtKernCount = 0;
+      let builtGlyphCount = 0;
+      let builtUPM = 1000;
+      let builtCap = 1000;
+      const opts = {
+        normalize: true,
+        "flip-y": true,
+        "do-kern": true,
+        "zero-bearings": true,
+      };
+      let embedVal = 0;
+      let selectedCP = null;
+
+      // ── LOGGING ────────────────────────────────────────────────────────────────
+      function log(msg, type = "info") {
+        const el = document.getElementById("log");
+        if (!el) return;
+        const ts = new Date().toLocaleTimeString("en-US", {
+          hour12: false,
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        });
+        const d = document.createElement("div");
+        d.className = `ll ${type}`;
+        d.innerHTML = `<span class="ts">[${ts}]</span><span class="m">${msg}</span>`;
+        el.appendChild(d);
+        el.scrollTop = el.scrollHeight;
+      }
+
+      // ── TOGGLES ────────────────────────────────────────────────────────────────
+      function tog(key) {
+        opts[key] = !opts[key];
+        const el = document.getElementById("opt-" + key);
+        if (el) el.classList.toggle("on", opts[key]);
+        updateSummary();
+      }
+
+      // ── EMBEDDING ──────────────────────────────────────────────────────────────
+      // ── NAME AUTO-FILL HELPERS ───────────────────────────────────────────────
+      function autoFillNames() {
+        const fam =
+          document.getElementById("s-family").value.trim() || "MyFont";
+        const sub = document.getElementById("s-sub").value || "Regular";
+        const full = sub === "Regular" ? fam : fam + " " + sub;
+        const ps = (fam + "-" + sub).replace(/\s+/g, "");
+        document.getElementById("s-fullname").value = full;
+        document.getElementById("s-postscript").value = ps;
+        const uid = document.getElementById("s-unique-id");
+        if (!uid.value)
+          uid.placeholder = ps + ";1.000;" + new Date().getFullYear();
+        const outName = document.getElementById("out-name");
+        if (outName && outName.dataset.touched !== "true") {
+          outName.value = fam;
+        }
+      }
+
+      function fillCopyright() {
+        const designer = document.getElementById("s-designer").value.trim();
+        const year = new Date().getFullYear();
+        const name = designer || "Your Name";
+        document.getElementById("s-copyright").value =
+          `Copyright © ${year} ${name}. All rights reserved.`;
+      }
+
+      function setLicense(type) {
+        const map = {
+          ofl: {
+            text: "This Font Software is licensed under the SIL Open Font License, Version 1.1.",
+            url: "https://scripts.sil.org/OFL",
+          },
+          prop: {
+            text: "Proprietary. All rights reserved. Unauthorized copying or distribution is prohibited.",
+            url: "",
+          },
+          cc: {
+            text: "This work is licensed under the Creative Commons Attribution 4.0 International License.",
+            url: "https://creativecommons.org/licenses/by/4.0/",
+          },
+        };
+        const m = map[type];
+        if (!m) return;
+        document.getElementById("s-license").value = m.text;
+        document.getElementById("s-license-url").value = m.url;
+      }
+
+      function setEmbed(val) {
+        embedVal = val;
+        [0, 4, 8].forEach((v) => {
+          document
+            .getElementById("emb-tog-" + v)
+            .classList.toggle("on", v === val);
+        });
+      }
+
+      // ── UNICODE PARSING ────────────────────────────────────────────────────────
+      function filenameToCodepoint(filename) {
+        const base = filename.replace(/\.svg$/i, "");
+        // uni0041 or U0041 or u0041
+        const uniMatch = base.match(/^[uU](?:ni)?([0-9a-fA-F]{4,6})$/);
+        if (uniMatch) return parseInt(uniMatch[1], 16);
+        // Single char: A, a, 0, etc.
+        if (base.length === 1) return base.charCodeAt(0);
+        // Two chars for surrogate-range names
+        if (base.length === 2 && /^[A-Za-z0-9]/.test(base))
+          return base.charCodeAt(0);
+        return null;
+      }
+
+      // ── SVG PATH PARSING ───────────────────────────────────────────────────────
+      function extractPathFromSVG(svgText) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(svgText, "image/svg+xml");
+        const svg = doc.querySelector("svg");
+        if (!svg) return null;
+        const vb = svg.getAttribute("viewBox");
+        if (!vb) return null;
+        const [, , vw, vh] = vb
+          .trim()
+          .split(/[\s,]+/)
+          .map(Number);
+
+        // Collect all path d attributes
+        const paths = [...doc.querySelectorAll("path")]
+          .map((p) => p.getAttribute("d"))
+          .filter(Boolean);
+        if (paths.length === 0) return null;
+
+        return { d: paths.join(" "), vw, vh };
+      }
+
+      // ── SVG PATH → opentype Path (with scale + Y-flip) ────────────────────────
+      // Converts SVG path commands into opentype.js Path object.
+      // scale: font_units / svg_units   flipY: SVG y-down → font y-up
+      function svgPathToOpentypePath(d, scale, flipY, capHeight) {
+        const path = new opentype.Path();
+
+        // Tokenize SVG path data properly:
+        // Split on command letters, and on sign changes (e.g. 15.83-32.2 → two tokens)
+        const tokens = d.match(
+          /[MmLlHhVvCcSsQqTtAaZz]|[+-]?(?:[0-9]*\.)?[0-9]+(?:[eE][+-]?[0-9]+)?/g,
+        );
+        if (!tokens) return path;
+
+        let i = 0,
+          cx = 0,
+          cy = 0,
+          startX = 0,
+          startY = 0;
+        let lastCmd = "M",
+          lastCtrlX = 0,
+          lastCtrlY = 0;
+
+        const isCmd = (t) => /^[MmLlHhVvCcSsQqTtAaZz]$/.test(t);
+        function num() {
+          return parseFloat(tokens[i++] || "0");
+        }
+        function tx(x) {
+          return x * scale;
+        }
+        // SVG y=0 is top, font y=0 is baseline.
+        // Glyphs sit between baseline (0) and capHeight.
+        // SVG y=0 (top of glyph) → font y=capHeight
+        // SVG y=vh (bottom)      → font y=0 (baseline)
+        // So: fontY = capHeight - svgY * scale
+        function ty(y) {
+          return flipY ? capHeight - y * scale : y * scale;
+        }
+
+        while (i < tokens.length) {
+          // Read next token — if it's a command letter use it, otherwise reuse lastCmd
+          let c;
+          if (isCmd(tokens[i])) {
+            c = tokens[i++];
+            // M/m followed by more coords = implicit L/l
+            if (c === "M") lastCmd = "L";
+            else if (c === "m") lastCmd = "l";
+            else lastCmd = c;
+          } else {
+            c = lastCmd; // implicit repetition of last command
+          }
+
+          if (c === "M") {
+            cx = num();
+            cy = num();
+            startX = cx;
+            startY = cy;
+            path.moveTo(tx(cx), ty(cy));
+          } else if (c === "m") {
+            cx += num();
+            cy += num();
+            startX = cx;
+            startY = cy;
+            path.moveTo(tx(cx), ty(cy));
+          } else if (c === "L") {
+            cx = num();
+            cy = num();
+            path.lineTo(tx(cx), ty(cy));
+          } else if (c === "l") {
+            cx += num();
+            cy += num();
+            path.lineTo(tx(cx), ty(cy));
+          } else if (c === "H") {
+            cx = num();
+            path.lineTo(tx(cx), ty(cy));
+          } else if (c === "h") {
+            cx += num();
+            path.lineTo(tx(cx), ty(cy));
+          } else if (c === "V") {
+            cy = num();
+            path.lineTo(tx(cx), ty(cy));
+          } else if (c === "v") {
+            cy += num();
+            path.lineTo(tx(cx), ty(cy));
+          } else if (c === "C") {
+            const x1 = num(),
+              y1 = num(),
+              x2 = num(),
+              y2 = num(),
+              x = num(),
+              y = num();
+            path.curveTo(tx(x1), ty(y1), tx(x2), ty(y2), tx(x), ty(y));
+            lastCtrlX = x2;
+            lastCtrlY = y2;
+            cx = x;
+            cy = y;
+          } else if (c === "c") {
+            const dx1 = num(),
+              dy1 = num(),
+              dx2 = num(),
+              dy2 = num(),
+              dx = num(),
+              dy = num();
+            const x1 = cx + dx1,
+              y1 = cy + dy1,
+              x2 = cx + dx2,
+              y2 = cy + dy2,
+              x = cx + dx,
+              y = cy + dy;
+            path.curveTo(tx(x1), ty(y1), tx(x2), ty(y2), tx(x), ty(y));
+            lastCtrlX = x2;
+            lastCtrlY = y2;
+            cx = x;
+            cy = y;
+          } else if (c === "S") {
+            const x1 = 2 * cx - lastCtrlX,
+              y1 = 2 * cy - lastCtrlY;
+            const x2 = num(),
+              y2 = num(),
+              x = num(),
+              y = num();
+            path.curveTo(tx(x1), ty(y1), tx(x2), ty(y2), tx(x), ty(y));
+            lastCtrlX = x2;
+            lastCtrlY = y2;
+            cx = x;
+            cy = y;
+          } else if (c === "s") {
+            const x1 = 2 * cx - lastCtrlX,
+              y1 = 2 * cy - lastCtrlY;
+            const dx2 = num(),
+              dy2 = num(),
+              dx = num(),
+              dy = num();
+            const x2 = cx + dx2,
+              y2 = cy + dy2,
+              x = cx + dx,
+              y = cy + dy;
+            path.curveTo(tx(x1), ty(y1), tx(x2), ty(y2), tx(x), ty(y));
+            lastCtrlX = x2;
+            lastCtrlY = y2;
+            cx = x;
+            cy = y;
+          } else if (c === "Q") {
+            const x1 = num(),
+              y1 = num(),
+              x = num(),
+              y = num();
+            path.quadraticCurveTo(tx(x1), ty(y1), tx(x), ty(y));
+            lastCtrlX = x1;
+            lastCtrlY = y1;
+            cx = x;
+            cy = y;
+          } else if (c === "q") {
+            const dx1 = num(),
+              dy1 = num(),
+              dx = num(),
+              dy = num();
+            const x1 = cx + dx1,
+              y1 = cy + dy1,
+              x = cx + dx,
+              y = cy + dy;
+            path.quadraticCurveTo(tx(x1), ty(y1), tx(x), ty(y));
+            lastCtrlX = x1;
+            lastCtrlY = y1;
+            cx = x;
+            cy = y;
+          } else if (c === "T") {
+            const x1 = 2 * cx - lastCtrlX,
+              y1 = 2 * cy - lastCtrlY,
+              x = num(),
+              y = num();
+            path.quadraticCurveTo(tx(x1), ty(y1), tx(x), ty(y));
+            lastCtrlX = x1;
+            lastCtrlY = y1;
+            cx = x;
+            cy = y;
+          } else if (c === "t") {
+            const x1 = 2 * cx - lastCtrlX,
+              y1 = 2 * cy - lastCtrlY,
+              x = cx + num(),
+              y = cy + num();
+            path.quadraticCurveTo(tx(x1), ty(y1), tx(x), ty(y));
+            lastCtrlX = x1;
+            lastCtrlY = y1;
+            cx = x;
+            cy = y;
+          } else if (c === "Z" || c === "z") {
+            path.close();
+            cx = startX;
+            cy = startY;
+            lastCtrlX = cx;
+            lastCtrlY = cy;
+          } else {
+            // Arc (A/a) and unknowns: skip to next command
+            while (i < tokens.length && !isCmd(tokens[i])) i++;
+          }
+        }
+        return path;
+      }
+
+      // ── FILE LOADING ───────────────────────────────────────────────────────────
+      const dropEl = document.getElementById("drop");
+      const fileInput = document.getElementById("file-input");
+
+      dropEl.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        dropEl.classList.add("over");
+      });
+      dropEl.addEventListener("dragleave", () =>
+        dropEl.classList.remove("over"),
+      );
+      dropEl.addEventListener("drop", async (e) => {
+        e.preventDefault();
+        dropEl.classList.remove("over");
+        const items = [...(e.dataTransfer.items || [])];
+        // Check for directory entries via webkitGetAsEntry
+        const dirEntries = items
+          .map((it) => it.webkitGetAsEntry && it.webkitGetAsEntry())
+          .filter((en) => en && en.isDirectory);
+
+        if (dirEntries.length > 0) {
+          // Read all SVG files from dropped directories
+          const allFiles = [];
+          const readDir = (entry) =>
+            new Promise((resolve) => {
+              const reader = entry.createReader();
+              const readAll = (collected) => {
+                reader.readEntries((entries) => {
+                  if (!entries.length) {
+                    resolve(collected);
+                    return;
+                  }
+                  const filePromises = entries.map((en) => {
+                    if (en.isFile && en.name.toLowerCase().endsWith(".svg"))
+                      return new Promise((res) => en.file((f) => res(f)));
+                    if (en.isDirectory) return readDir(en).then((fs) => fs);
+                    return Promise.resolve(null);
+                  });
+                  Promise.all(filePromises).then((results) => {
+                    results
+                      .flat()
+                      .filter(Boolean)
+                      .forEach((f) => collected.push(f));
+                    readAll(collected);
+                  });
+                });
+              };
+              readAll(allFiles);
+            });
+          await Promise.all(dirEntries.map(readDir));
+          if (allFiles.length) loadFiles(allFiles);
+          else log("No SVG files found in dropped folder", "warn");
+          return;
+        }
+        // Regular file drop
+        loadFiles([...e.dataTransfer.files]);
+      });
+      fileInput.addEventListener("change", (e) =>
+        loadFiles([...e.target.files]),
+      );
+
+      // Folder input
+      const folderInput = document.getElementById("folder-input");
+      folderInput.addEventListener("change", (e) => {
+        const svgs = [...e.target.files].filter((f) =>
+          f.name.toLowerCase().endsWith(".svg"),
+        );
+        if (svgs.length) loadFiles(svgs);
+        else log("No SVG files found in folder", "warn");
+      });
+
+      async function loadFiles(files) {
+        const svgs = files.filter((f) => f.name.toLowerCase().endsWith(".svg"));
+        if (!svgs.length) {
+          log("No SVG files found", "warn");
+          return;
+        }
+        log(`Loading ${svgs.length} SVG file(s)...`, "info");
+        let ok = 0,
+          fail = 0;
+        for (const file of svgs) {
+          const text = await file.text();
+          const cp = filenameToCodepoint(file.name);
+          if (cp === null) {
+            log(`Cannot parse codepoint from filename: ${file.name}`, "warn");
+            fail++;
+            continue;
+          }
+          const parsed = extractPathFromSVG(text);
+          if (!parsed) {
+            log(`No path found in ${file.name}`, "err");
+            fail++;
+            continue;
+          }
+          const char = String.fromCodePoint(cp);
+          const isUpdate = !!glyphs[cp];
+          glyphs[cp] = {
+            cp,
+            char,
+            name: `uni${cp.toString(16).toUpperCase().padStart(4, "0")}`,
+            filename: file.name,
+            svgD: parsed.d,
+            vw: parsed.vw,
+            vh: parsed.vh,
+          };
+          if (isUpdate)
+            log(
+              `  Updated: ${char} (U+${cp.toString(16).toUpperCase().padStart(4, "0")}) ← ${file.name}`,
+              "info",
+            );
+          ok++;
+        }
+        log(
+          `Loaded ${ok} glyphs${fail ? `, ${fail} failed` : ""}`,
+          ok ? "ok" : "err",
+        );
+        builtFont = null;
+        rebuildGlyphList();
+        updateSummary();
+        updateStatus();
+      }
+
+      // ── GLYPH LIST UI ──────────────────────────────────────────────────────────
+      function rebuildGlyphList() {
+        const list = document.getElementById("glyph-list");
+        const empty = document.getElementById("empty-glyphs");
+        const cps = Object.keys(glyphs)
+          .map(Number)
+          .sort((a, b) => a - b);
+        if (!cps.length) {
+          empty.style.display = "flex";
+          list.innerHTML = "";
+          list.appendChild(empty);
+          return;
+        }
+        empty.style.display = "none";
+        list.innerHTML = "";
+
+        cps.forEach((cp) => {
+          const g = glyphs[cp];
+          const row = document.createElement("div");
+          row.className = "glyph-row";
+          row.dataset.cp = cp;
+
+          // Thumbnail
+          const wrap = document.createElement("div");
+          wrap.className = "gchar";
+          const cvs = document.createElement("canvas");
+          cvs.width = 72;
+          cvs.height = 72;
+          drawSVGThumbnail(cvs, g.svgD, g.vw, g.vh);
+          wrap.appendChild(cvs);
+
+          const meta = document.createElement("div");
+          meta.className = "gmeta";
+          meta.innerHTML = `<div class="gname">${g.char} &nbsp;<span style="color:var(--dim);">U+${cp.toString(16).toUpperCase().padStart(4, "0")}</span></div><div class="ginfo">${g.filename} · ${g.vw.toFixed(0)}×${g.vh.toFixed(0)}</div>`;
+
+          const badge = document.createElement("span");
+          badge.className = "gbadge ok";
+          badge.textContent = "OK";
+
+          row.appendChild(wrap);
+          row.appendChild(meta);
+          row.appendChild(badge);
+          row.addEventListener("click", () => selectGlyph(cp, row));
+          list.appendChild(row);
+        });
+
+        document.getElementById("m-glyphs").textContent = cps.length;
+        // Update glyph count in sidebar label and toggle clear button
+        const countEl = document.getElementById("glyph-count");
+        const clearEl = document.getElementById("btn-clear");
+        if (countEl) countEl.textContent = cps.length ? `${cps.length}` : "";
+        if (clearEl) clearEl.classList.toggle("visible", cps.length > 0);
+      }
+
+      function clearGlyphs() {
+        if (!Object.keys(glyphs).length) return;
+        // Reload the page — cleanest possible reset, no state residue
+        window.location.reload();
+      }
+
+      function drawSVGThumbnail(canvas, d, vw, vh) {
+        const ctx = canvas.getContext("2d");
+        const W = canvas.width,
+          H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+        const scale = Math.min(W / vw, H / vh) * 0.9;
+        const offX = (W - vw * scale) / 2;
+        const offY = (H - vh * scale) / 2;
+        const p2d = new Path2D(d);
+        ctx.save();
+        ctx.translate(offX, offY);
+        ctx.scale(scale, scale);
+        ctx.fillStyle = "#111";
+        ctx.fill(p2d);
+        ctx.restore();
+      }
+
+      function selectGlyph(cp, rowEl) {
+        document
+          .querySelectorAll(".glyph-row")
+          .forEach((r) => r.classList.remove("selected"));
+        rowEl.classList.add("selected");
+        selectedCP = cp;
+        showGlyphDetail(cp);
+        // Switch to Build tab to show glyph detail (preview is there now)
+        document
+          .querySelectorAll(".tab")
+          .forEach((t) => t.classList.remove("active"));
+        document
+          .querySelectorAll(".panel")
+          .forEach((p) => p.classList.remove("active"));
+        document.querySelector('[data-tab="build"]').classList.add("active");
+        document.getElementById("tab-build").classList.add("active");
+      }
+
+      function showGlyphDetail(cp) {
+        const g = glyphs[cp];
+        if (!g) return;
+        const canvas = document.getElementById("glyph-canvas");
+        const ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, 140, 140);
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(0, 0, 140, 140);
+        // Baseline
+        ctx.strokeStyle = "#e0e0e0";
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(0, 120);
+        ctx.lineTo(140, 120);
+        ctx.stroke();
+        drawSVGThumbnail(canvas, g.svgD, g.vw, g.vh);
+
+        const cap = parseInt(document.getElementById("me-cap").value) || 1000;
+        const upm = parseInt(document.getElementById("me-upm").value) || 1000;
+        const scale = cap / g.vh;
+        const fw = Math.round(g.vw * scale);
+
+        document.getElementById("gd-stats").innerHTML = `
+    <div class="srow"><span class="k">Unicode</span><span class="v">U+${cp.toString(16).toUpperCase().padStart(4, "0")}</span></div>
+    <div class="srow"><span class="k">Char</span><span class="v">${g.char}</span></div>
+    <div class="srow"><span class="k">SVG size</span><span class="v">${g.vw.toFixed(1)} × ${g.vh.toFixed(1)}</span></div>
+    <div class="srow"><span class="k">Scale factor</span><span class="v">${scale.toFixed(4)}</span></div>
+    <div class="srow"><span class="k">Font width</span><span class="v">${fw} u</span></div>
+    <div class="srow"><span class="k">Advance width</span><span class="v">${fw} u (0 bearings)</span></div>
+  `;
+      }
+
+      // ── TABS ───────────────────────────────────────────────────────────────────
+      document.querySelectorAll(".tab").forEach((t) => {
+        t.addEventListener("click", () => {
+          document
+            .querySelectorAll(".tab")
+            .forEach((x) => x.classList.remove("active"));
+          document
+            .querySelectorAll(".panel")
+            .forEach((x) => x.classList.remove("active"));
+          t.classList.add("active");
+          document
+            .getElementById("tab-" + t.dataset.tab)
+            .classList.add("active");
+          if (t.dataset.tab === "build" && builtFont) renderBuildPreview();
+        });
+      });
+
+      // ── PREVIEW ────────────────────────────────────────────────────────────────
+      function renderPreview() {
+        const canvas = document.getElementById("prev-canvas");
+        const ctx = canvas.getContext("2d");
+        const W = canvas.offsetWidth || 860;
+        canvas.width = W;
+        canvas.height = 180;
+        const bg = document.getElementById("prev-bg").value;
+        const text = document.getElementById("prev-text").value || "1234567890";
+        const size = parseInt(document.getElementById("prev-size").value) || 80;
+
+        if (bg === "black") {
+          ctx.fillStyle = "#111";
+          ctx.fillRect(0, 0, W, 180);
+          ctx.fillStyle = "#fff";
+        } else if (bg === "grid") {
+          ctx.fillStyle = "#f2f2f2";
+          ctx.fillRect(0, 0, W, 180);
+          ctx.strokeStyle = "#ddd";
+          ctx.lineWidth = 0.5;
+          for (let x = 0; x < W; x += 20) {
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, 180);
+            ctx.stroke();
+          }
+          for (let y = 0; y < 180; y += 20) {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(W, y);
+            ctx.stroke();
+          }
+          ctx.fillStyle = "#111";
+        } else {
+          ctx.fillStyle = "#fff";
+          ctx.fillRect(0, 0, W, 180);
+          ctx.fillStyle = "#111";
+        }
+
+        if (builtFont) {
+          // Draw with the built font glyph-by-glyph, applying kern table
+          const scale = size / builtFont.unitsPerEm;
+          const baseline = 140;
+          let curX = 10;
+          for (let i = 0; i < text.length; i++) {
+            const g = builtFont.charToGlyph(text[i]);
+            if (!g) continue;
+            const path = g.getPath(curX, baseline, size);
+            path.fill = ctx.fillStyle;
+            path.draw(ctx);
+            let adv = (g.advanceWidth || 0) * scale;
+            if (i + 1 < text.length) {
+              const g2 = builtFont.charToGlyph(text[i + 1]);
+              if (g2)
+                try {
+                  adv += builtFont.getKerningValue(g, g2) * scale;
+                } catch (e) {}
+            }
+            curX += adv;
+          }
+        } else if (Object.keys(glyphs).length) {
+          // Fallback: draw SVG thumbnails scaled to size
+          const cap = parseInt(document.getElementById("me-cap").value) || 1000;
+          let curX = 10;
+          const baseline = 140;
+          for (const ch of text) {
+            const cp = ch.codePointAt(0);
+            const g = glyphs[cp];
+            if (!g) continue;
+            const scale = size / g.vh;
+            const gw = g.vw * scale;
+            const p2d = new Path2D(g.svgD);
+            ctx.save();
+            ctx.translate(curX, baseline - size);
+            ctx.scale(scale, scale);
+            ctx.fill(p2d);
+            ctx.restore();
+            curX += gw;
+          }
+        }
+      }
+
+      // ── UPDATE SUMMARY ─────────────────────────────────────────────────────────
+      function updateSummary() {
+        const cps = Object.keys(glyphs)
+          .map(Number)
+          .sort((a, b) => a - b);
+        const cap = parseInt(document.getElementById("me-cap").value) || 1000;
+        const upm = parseInt(document.getElementById("me-upm").value) || 1000;
+        const doKern = opts["do-kern"];
+        const pairs = cps.length * cps.length;
+        const famVal = document.getElementById("s-family").value || "MyFont";
+        const desVal = document.getElementById("s-designer").value || "—";
+        const verVal = document.getElementById("s-version").value || "1.000";
+        const licVal = document.getElementById("s-license").value || "—";
+        document.getElementById("build-summary").innerHTML = [
+          `Glyphs: ${cps.length}`,
+          `Characters: ${cps.map((c) => String.fromCodePoint(c)).join(" ")}`,
+          `Units/Em: ${upm} · Cap Height: ${cap}`,
+          `Normalize heights: ${opts.normalize ? "yes" : "no"}`,
+          `Flip Y: ${opts["flip-y"] ? "yes" : "no"}`,
+          `Touch kerning: ${doKern ? `yes (${pairs} pairs)` : "no"}`,
+          `Side bearings: 0 (zero bearings enforced)`,
+          `Embedding: fsType=${embedVal}`,
+        ]
+          .map((l) => `<div>${l}</div>`)
+          .join("");
+
+        document.getElementById("m-glyphs").textContent = cps.length;
+        document.getElementById("m-upm").textContent = upm;
+        document.getElementById("m-cap").textContent = cap;
+        document.getElementById("m-asc").textContent =
+          document.getElementById("me-asc").value;
+      }
+
+      // Link metric inputs to summary
+      // cap/asc are hardcoded hidden fields — no sync needed
+      // me-upm and me-cap are hidden hardcoded fields — no listeners needed
+      ["me-xh", "me-lg"].forEach((id) => {
+        document.getElementById(id).addEventListener("input", updateSummary);
+      });
+
+      // ── STATUS BAR ─────────────────────────────────────────────────────────────
+      function updateStatus() {
+        const n = Object.keys(glyphs).length;
+        document.getElementById("status-dot").className =
+          "dot" + (n ? " green" : "");
+        document.getElementById("status-text").textContent = n
+          ? `${n} glyph${n > 1 ? "s" : ""} loaded`
+          : "No glyphs loaded";
+        document.getElementById("status-count").textContent = n
+          ? Object.keys(glyphs)
+              .map((c) => String.fromCodePoint(Number(c)))
+              .join(" ")
+          : "";
+      }
+
+      // ── TOUCH KERN GEOMETRY ────────────────────────────────────────────────────
+      // ── Precise glyph silhouette profiler ────────────────────────────────────
+      // CRITICAL: all glyphs use IDENTICAL canvas height (full UPM) and IDENTICAL
+      // baseline position so that row N in g1's profile maps to the EXACT same
+      // font-space Y as row N in g2's profile. Any per-glyph canvas height causes
+      // Y misalignment between profiles → wrong kern values.
+      //
+      // Canvas layout (top=row0, bottom=row cH-1):
+      //   row 0          = font y = asc  (top of ascender)
+      //   row asc*SCALE  = font y = 0    (baseline)
+      //   row cH-1       = font y = desc (bottom of descender)
+      // profile[row] = x in font units at that scanline (right=rightmost, left=leftmost)
+
+      // ── Analytical silhouette profiler — no canvas, no rasterization artifacts ───
+      // Walks the glyph's actual bezier path commands and samples x at every Y level.
+      // Each bezier segment is subdivided into enough steps to hit every integer Y row.
+      // Result: right[row] = rightmost x at that Y, left[row] = leftmost x at that Y.
+      // Row 0 = font y=upm (top), row N = font y=0 (bottom). Same for ALL glyphs.
+
+      // ── Analytical glyph silhouette profiler ─────────────────────────────────
+      // Walks opentype path commands mathematically — no canvas, no anti-aliasing.
+      // numRows = upm * oversample: row 0 = y=upm (top), row N-1 = y≈0 (baseline).
+      // Each row maps to font-Y = upm - row/oversample.
+      // right[row] = rightmost x, left[row] = leftmost x at that Y level.
+
+      // ── True ink bounds via bezier curve tracing ──────────────────────────────
+      // getBoundingBox() uses the convex hull of control points — it overestimates.
+      // This traces the actual curves parametrically to find true yMin and yMax.
+      function trueInkBounds(otPath) {
+        let yMin = Infinity,
+          yMax = -Infinity,
+          xMin = Infinity,
+          xMax = -Infinity;
+
+        function record(x, y) {
+          if (y < yMin) yMin = y;
+          if (y > yMax) yMax = y;
+          if (x < xMin) xMin = x;
+          if (x > xMax) xMax = x;
+        }
+
+        function traceLine(x0, y0, x1, y1) {
+          record(x0, y0);
+          record(x1, y1); // lines are convex — endpoints are extrema
+        }
+
+        function traceCubic(x0, y0, x1, y1, x2, y2, x3, y3) {
+          function evalCubic(t) {
+            const mt = 1 - t;
+
+            record(
+              mt * mt * mt * x0 +
+                3 * mt * mt * t * x1 +
+                3 * mt * t * t * x2 +
+                t * t * t * x3,
+
+              mt * mt * mt * y0 +
+                3 * mt * mt * t * y1 +
+                3 * mt * t * t * y2 +
+                t * t * t * y3,
+            );
+          }
+
+          evalCubic(0);
+          evalCubic(1);
+
+          // Exact Y extrema
+          const a = -y0 + 3 * y1 - 3 * y2 + y3;
+          const b = 2 * (y0 - 2 * y1 + y2);
+          const c = y1 - y0;
+
+          const A = 3 * a;
+          const B = 2 * b;
+          const C = c;
+
+          const disc = B * B - 4 * A * C;
+
+          if (Math.abs(A) < 1e-12) {
+            if (Math.abs(B) > 1e-12) {
+              const t = -C / B;
+
+              if (t > 0 && t < 1) {
+                evalCubic(t);
+              }
+            }
+          } else if (disc >= 0) {
+            const s = Math.sqrt(disc);
+
+            const t1 = (-B + s) / (2 * A);
+            const t2 = (-B - s) / (2 * A);
+
+            if (t1 > 0 && t1 < 1) evalCubic(t1);
+            if (t2 > 0 && t2 < 1) evalCubic(t2);
+          }
+        }
+
+        function traceQuad(x0, y0, x1, y1, x2, y2) {
+          function evalQuad(t) {
+            const mt = 1 - t;
+
+            record(
+              mt * mt * x0 + 2 * mt * t * x1 + t * t * x2,
+              mt * mt * y0 + 2 * mt * t * y1 + t * t * y2,
+            );
+          }
+
+          evalQuad(0);
+          evalQuad(1);
+
+          // Exact Y extrema
+          const denom = y0 - 2 * y1 + y2;
+
+          if (Math.abs(denom) > 1e-9) {
+            const t = (y0 - y1) / denom;
+
+            if (t > 0 && t < 1) {
+              evalQuad(t);
+            }
+          }
+        }
+
+        let cx = 0,
+          cy = 0,
+          sx = 0,
+          sy = 0;
+        for (const cmd of otPath.commands) {
+          switch (cmd.type) {
+            case "M":
+              sx = cmd.x;
+              sy = cmd.y;
+              cx = cmd.x;
+              cy = cmd.y;
+              record(cx, cy);
+              break;
+            case "L":
+              traceLine(cx, cy, cmd.x, cmd.y);
+              cx = cmd.x;
+              cy = cmd.y;
+              break;
+            case "C":
+              traceCubic(cx, cy, cmd.x1, cmd.y1, cmd.x2, cmd.y2, cmd.x, cmd.y);
+              cx = cmd.x;
+              cy = cmd.y;
+              break;
+            case "Q":
+              traceQuad(cx, cy, cmd.x1, cmd.y1, cmd.x, cmd.y);
+              cx = cmd.x;
+              cy = cmd.y;
+              break;
+            case "Z":
+              traceLine(cx, cy, sx, sy);
+              cx = sx;
+              cy = sy;
+              break;
+          }
+        }
+        return { xMin, xMax, yMin, yMax };
+      }
+
+      function buildAnalyticalProfiles(g, upm, oversample) {
+        if (!g.path || !g.path.commands || g.path.commands.length === 0)
+          return null;
+        const numRows = Math.round(upm * oversample);
+        const right = new Float64Array(numRows).fill(-Infinity);
+        const left = new Float64Array(numRows).fill(Infinity);
+
+        // font-Y → row: row = (upm - fontY) * oversample
+        function updateRow(fontY, x) {
+          const row = Math.floor((upm - fontY) * oversample);
+          if (row < 0 || row >= numRows) return;
+
+          if (x > right[row]) right[row] = x;
+          if (x < left[row]) left[row] = x;
+        }
+
+        // Steps: enough to hit every sub-row at least twice
+        function stepsForSegment(dy, dx) {
+          // Ensure we sample at least 2× per row height (oversample already gives sub-unit rows)
+          const arcLen = Math.sqrt(dx * dx + dy * dy);
+          return Math.max(8, Math.ceil(arcLen * oversample * 2));
+        }
+
+        function sampleLine(x0, y0, x1, y1) {
+          const dy = Math.abs(y1 - y0),
+            dx = Math.abs(x1 - x0);
+          const steps = stepsForSegment(dy, dx);
+          for (let k = 0; k <= steps; k++) {
+            const t = k / steps;
+            updateRow(y0 + (y1 - y0) * t, x0 + (x1 - x0) * t);
+          }
+        }
+
+        function sampleCubic(x0, y0, x1, y1, x2, y2, x3, y3) {
+          const dy = Math.max(
+            Math.abs(y3 - y0),
+            Math.abs(y1 - y0),
+            Math.abs(y2 - y0),
+            Math.abs(y3 - y1),
+            Math.abs(y3 - y2),
+          );
+
+          const dx = Math.max(
+            Math.abs(x3 - x0),
+            Math.abs(x1 - x0),
+            Math.abs(x2 - x0),
+            Math.abs(x3 - x1),
+            Math.abs(x3 - x2),
+          );
+
+          const steps = stepsForSegment(dy, dx);
+
+          function evalCubic(t) {
+            const mt = 1 - t;
+
+            const x =
+              mt * mt * mt * x0 +
+              3 * mt * mt * t * x1 +
+              3 * mt * t * t * x2 +
+              t * t * t * x3;
+
+            const y =
+              mt * mt * mt * y0 +
+              3 * mt * mt * t * y1 +
+              3 * mt * t * t * y2 +
+              t * t * t * y3;
+
+            updateRow(y, x);
+          }
+
+          // Dense sampling
+          for (let k = 0; k <= steps; k++) {
+            evalCubic(k / steps);
+          }
+
+          // Exact X extrema
+          const ax = -x0 + 3 * x1 - 3 * x2 + x3;
+          const bx = 2 * (x0 - 2 * x1 + x2);
+          const cx = x1 - x0;
+
+          const A = 3 * ax;
+          const B = 2 * bx;
+          const C = cx;
+
+          const disc = B * B - 4 * A * C;
+
+          if (Math.abs(A) < 1e-12) {
+            if (Math.abs(B) > 1e-12) {
+              const t = -C / B;
+
+              if (t > 0 && t < 1) {
+                evalCubic(t);
+              }
+            }
+          } else if (disc >= 0) {
+            const s = Math.sqrt(disc);
+
+            const t1 = (-B + s) / (2 * A);
+            const t2 = (-B - s) / (2 * A);
+
+            if (t1 > 0 && t1 < 1) evalCubic(t1);
+            if (t2 > 0 && t2 < 1) evalCubic(t2);
+          }
+        }
+
+        let cx = 0,
+          cy = 0,
+          startX = 0,
+          startY = 0;
+        for (const cmd of g.path.commands) {
+          switch (cmd.type) {
+            case "M":
+              cx = cmd.x;
+              cy = cmd.y;
+              startX = cx;
+              startY = cy;
+              break;
+            case "L":
+              sampleLine(cx, cy, cmd.x, cmd.y);
+              cx = cmd.x;
+              cy = cmd.y;
+              break;
+            case "C":
+              sampleCubic(cx, cy, cmd.x1, cmd.y1, cmd.x2, cmd.y2, cmd.x, cmd.y);
+              cx = cmd.x;
+              cy = cmd.y;
+              break;
+            case "Q":
+              sampleQuad(cx, cy, cmd.x1, cmd.y1, cmd.x, cmd.y);
+              cx = cmd.x;
+              cy = cmd.y;
+              break;
+            case "Z":
+              // Close path: draw line back to subpath start if not already there
+              if (Math.abs(cx - startX) > 0.01 || Math.abs(cy - startY) > 0.01)
+                sampleLine(cx, cy, startX, startY);
+              cx = startX;
+              cy = startY;
+              break;
+          }
+        }
+        return { right, left, numRows };
+      }
+
+      // Profile cache: keyed by glyph index + oversample, rebuilt each font build
+      const _profileCache = new Map();
+
+      function getProfiles(g, upm, oversample) {
+        const key = `${g.index}:${oversample}`;
+        if (_profileCache.has(key)) return _profileCache.get(key);
+        const p = buildAnalyticalProfiles(g, upm, oversample);
+        _profileCache.set(key, p);
+        return p;
+      }
+
+      function clearProfileCache() {
+        _profileCache.clear();
+      }
+
+      function computeTouchKern(g1, g2, gap, upm, asc, res) {
+        // oversample: sub-rows per font unit. 4 = accurate to 0.25 units.
+        // Higher = more precision for very tight curves, but slower.
+        const oversample = Math.max(1, Math.round(res));
+
+        const p1 = getProfiles(g1, upm, oversample);
+        const p2 = getProfiles(g2, upm, oversample);
+        if (!p1 || !p2) return null;
+
+        // Touch kern formula:
+        // When g2 is placed at cursor + kern, its outline shifts right by (adv1 + kern).
+        // g2's left edge in layout coords = p2.left[row] + adv1 + kern
+        // Touch condition: p1.right[row] = p2.left[row] + adv1 + kern + gap
+        // Solving: kern = p1.right[row] - p2.left[row] - adv1 + gap
+        // Taking max across all rows: ensures no row overlaps (tightest safe kern).
+        // This works for ALL font types — the outline coords already include any bearings.
+
+        const numRows = p1.numRows;
+        let maxK = -Infinity;
+        for (let row = 0; row < numRows; row++) {
+          const rX = p1.right[row];
+          const lX = p2.left[row];
+          if (rX === -Infinity || lX === Infinity) continue;
+          const K = rX - lX - g1.advanceWidth + gap;
+          if (K > maxK) maxK = K;
+        }
+
+        // Round to nearest integer font unit
+        return maxK === -Infinity ? null : Math.round(maxK);
+      }
+
+      // ── MAIN BUILD ─────────────────────────────────────────────────────────────
+      async function buildFont() {
+        const cps = Object.keys(glyphs)
+          .map(Number)
+          .sort((a, b) => a - b);
+        if (!cps.length) {
+          log("No glyphs loaded", "err");
+          return;
+        }
+
+        // ALL metric values are constants — NOT read from DOM fields.
+        // DOM fields are for display only. This eliminates stale browser cache as a cause.
+        const upm = 1000; // fixed
+        const cap = 1000; // fixed — cap height = UPM = 1in at 72pt
+        const asc = 1000; // fixed = cap
+        const desc = 0; // fixed
+        const xh = 700; // fixed
+        const lg = 0; // fixed
+
+        // Log exact values being used so user can verify
+        log(
+          `Building with: UPM=${upm} cap=${cap} asc=${asc} desc=${desc} — hardcoded, not from fields`,
+          "info",
+        );
+        const doNorm = opts.normalize;
+        const doFlip = opts["flip-y"];
+        const doKern = opts["do-kern"];
+        const gap = parseInt(document.getElementById("k-gap").value) || 0;
+        const res = parseInt(document.getElementById("k-res").value) || 2048;
+        const familyBase =
+          document.getElementById("s-family").value || "MyFont";
+        const sub = document.getElementById("s-sub").value || "Regular";
+        buildCounter++;
+        const family = familyBase + " b" + buildCounter;
+        const bdisp = document.getElementById("build-family-display");
+        if (bdisp) bdisp.textContent = "Building as: " + family;
+        const outName =
+          (document.getElementById("out-name").value.trim() || "myfont") +
+          ".otf";
+
+        // Progress
+        const prog = document.getElementById("build-progress");
+        const pbar = document.getElementById("build-pbar");
+        const ptxt = document.getElementById("build-ptext");
+        prog.classList.add("show");
+        function setP(pct, txt) {
+          pbar.style.width = pct + "%";
+          ptxt.textContent = txt;
+        }
+
+        log("Building font...", "info");
+        setP(5, "Converting SVG paths...");
+        await tick();
+
+        // ── 1. Build notdef glyph (index 0) ──────────────────────────────────
+        const notdefPath = new opentype.Path();
+        notdefPath.moveTo(50, 0);
+        notdefPath.lineTo(50, 700);
+        notdefPath.lineTo(450, 700);
+        notdefPath.lineTo(450, 0);
+        notdefPath.close();
+        notdefPath.moveTo(100, 50);
+        notdefPath.lineTo(400, 50);
+        notdefPath.lineTo(400, 650);
+        notdefPath.lineTo(100, 650);
+        notdefPath.close();
+        // index MUST be set in constructor — opentype.js never assigns it otherwise
+        const notdef = new opentype.Glyph({
+          name: ".notdef",
+          index: 0,
+          unicode: 0,
+          advanceWidth: 500,
+          path: notdefPath,
+        });
+
+        // ── 2. Convert SVG glyphs (indices 1…n) ───────────────────────────────
+        const otGlyphs = [notdef];
+        const cpToOTGlyph = {};
+
+        const maxVH = Math.max(...cps.map((c) => glyphs[c].vh));
+        const bearMode = document.getElementById("me-bear-mode").value;
+        const customLSB =
+          parseInt(document.getElementById("me-lsb").value) || 0;
+        const customRSB =
+          parseInt(document.getElementById("me-rsb").value) || 0;
+
+        // ── Convert & normalize each glyph independently ────────────────────────
+        // Each glyph is:
+        //   1. Converted from SVG path to font path (Y-flipped, scaled)
+        //   2. True ink bounds measured by tracing actual bezier curves
+        //   3. Scaled + shifted IN PLACE so its own ink spans exactly [0, cap]
+        //
+        // This gives EVERY character the SAME height regardless of:
+        //   - SVG viewBox differences between files
+        //   - Floating-point drift in curve coords
+        //   - Whether glyph is tall (like "4") or has floating strokes (like "7")
+        // Result: cap=1in → every character's ink = exactly 1in top to bottom.
+
+        for (let gi = 0; gi < cps.length; gi++) {
+          const g = glyphs[cps[gi]];
+          const scale = doNorm ? cap / g.vh : upm / maxVH;
+          const fontH = Math.round(g.vh * scale);
+          const otPath = svgPathToOpentypePath(
+            g.svgD,
+            scale,
+            doFlip,
+            doFlip ? cap : fontH,
+          );
+
+          // ── Step A: find on-curve extreme Y points ────────────────────────
+          // On-curve endpoints (M, L, C/Q destinations) are what CFF stores as
+          // exact integers. Off-curve control points only affect curve shape.
+          // By targeting on-curve extremes, the critical boundary coordinates
+          // land on exact integers after CFF rounding — giving exactly 0 and cap.
+          let onYMin = Infinity,
+            onYMax = -Infinity;
+          let cx0 = 0,
+            cy0 = 0;
+          for (const cmd of otPath.commands) {
+            // Only endpoint y values — not control points (x1,y1,x2,y2)
+            if (cmd.type === "M" || cmd.type === "L") {
+              if (cmd.y < onYMin) onYMin = cmd.y;
+              if (cmd.y > onYMax) onYMax = cmd.y;
+            } else if (cmd.type === "C" || cmd.type === "Q") {
+              // endpoint only, not control points
+              if (cmd.y < onYMin) onYMin = cmd.y;
+              if (cmd.y > onYMax) onYMax = cmd.y;
+            }
+          }
+          // Fallback to bezier-traced bounds if no on-curve points found
+          if (onYMin === Infinity) {
+            const ink = trueInkBounds(otPath);
+            onYMin = ink.yMin;
+            onYMax = ink.yMax;
+          }
+          const onH = onYMax - onYMin;
+
+          // ── Step B: normalize Y using on-curve extremes as targets ────────
+          // new_y = (old_y - onYMin) * (cap / onH)
+          // The on-curve extreme points now land at EXACTLY 0 and cap (as floats).
+          // CFF serializes these to integers: round(0.0)=0, round(cap)=cap. ✓
+          // Interior bezier control points and curve extrema may still have
+          // sub-unit float values, but those never exceed the on-curve boundary.
+          if (onH > 0) {
+            const sy = cap / onH;
+            const dy = onYMin;
+            for (const cmd of otPath.commands) {
+              if (cmd.y !== undefined) cmd.y = (cmd.y - dy) * sy;
+              if (cmd.y1 !== undefined) cmd.y1 = (cmd.y1 - dy) * sy;
+              if (cmd.y2 !== undefined) cmd.y2 = (cmd.y2 - dy) * sy;
+            }
+          }
+
+          // ── Step C: round to integers then clamp y to [0, cap] ───────────
+          // CFF only stores integers. Pre-rounding here means the values we set
+          // are EXACTLY what gets stored — zero serialization drift.
+          // Clamp y after rounding so no coordinate escapes [0, cap].
+          // X coordinates are rounded but not clamped (glyph width is free).
+          for (const cmd of otPath.commands) {
+            if (cmd.x !== undefined) cmd.x = Math.round(cmd.x);
+            if (cmd.y !== undefined)
+              cmd.y = Math.min(cap, Math.max(0, Math.round(cmd.y)));
+            if (cmd.x1 !== undefined) cmd.x1 = Math.round(cmd.x1);
+            if (cmd.y1 !== undefined)
+              cmd.y1 = Math.min(cap, Math.max(0, Math.round(cmd.y1)));
+            if (cmd.x2 !== undefined) cmd.x2 = Math.round(cmd.x2);
+            if (cmd.y2 !== undefined)
+              cmd.y2 = Math.min(cap, Math.max(0, Math.round(cmd.y2)));
+          }
+
+          // ── Step D: apply X bearing mode ─────────────────────────────────
+          // Same on-curve approach for X: use on-curve xMin as the shift target
+          let onXMin = Infinity,
+            onXMax = -Infinity;
+          for (const cmd of otPath.commands) {
+            if (cmd.type === "M" || cmd.type === "L") {
+              if (cmd.x < onXMin) onXMin = cmd.x;
+              if (cmd.x > onXMax) onXMax = cmd.x;
+            } else if (cmd.type === "C" || cmd.type === "Q") {
+              if (cmd.x < onXMin) onXMin = cmd.x;
+              if (cmd.x > onXMax) onXMax = cmd.x;
+            }
+          }
+          if (onXMin === Infinity) {
+            const ib = trueInkBounds(otPath);
+            onXMin = ib.xMin;
+            onXMax = ib.xMax;
+          }
+
+          let advW,
+            shiftX = 0;
+          if (bearMode === "zero") {
+            shiftX = -onXMin; // shift so on-curve xMin = 0
+            advW = Math.round(onXMax - onXMin); // advance = on-curve width
+          } else if (bearMode === "original") {
+            shiftX = 0;
+            advW = Math.round(g.vw * scale);
+          } else {
+            shiftX = customLSB - onXMin;
+            advW = Math.round(onXMax + shiftX + customRSB);
+          }
+
+          if (Math.abs(shiftX) > 0.01) {
+            for (const cmd of otPath.commands) {
+              if (cmd.x !== undefined) cmd.x += shiftX;
+              if (cmd.x1 !== undefined) cmd.x1 += shiftX;
+              if (cmd.x2 !== undefined) cmd.x2 += shiftX;
+            }
+          }
+
+          const otg = new opentype.Glyph({
+            name: g.name,
+            index: gi + 1,
+            unicode: cps[gi],
+            advanceWidth: advW,
+            path: otPath,
+          });
+
+          otGlyphs.push(otg);
+          cpToOTGlyph[cps[gi]] = otg;
+
+          // Verify final ink — should be [0, cap] for all glyphs
+          const inkFinal = trueInkBounds(otg.path);
+          log(
+            `  ${g.char} · adv=${advW} · ink y=[${inkFinal.yMin.toFixed(1)}, ${inkFinal.yMax.toFixed(1)}] x=[${inkFinal.xMin.toFixed(0)}, ${inkFinal.xMax.toFixed(0)}]`,
+            "info",
+          );
+        }
+
+        setP(30, "Creating font tables...");
+        await tick();
+
+        // ── 3. Create font object ─────────────────────────────────────────────
+        // ascender/descender in the constructor set hhea values.
+        // hhea is what Mac Illustrator uses for the text frame height.
+        // Must equal cap/0 so text frame = exactly 1in when cap=1in.
+        // The user-facing asc/desc fields are ONLY for sTypoAscender (line spacing).
+        const font = new opentype.Font({
+          familyName: family,
+          styleName: sub,
+          unitsPerEm: 1000, // hardcoded
+          ascender: 1000, // hardcoded = cap → hhea.ascender = 1000
+          descender: 0, // hardcoded → hhea.descender = 0
+          glyphs: otGlyphs,
+        });
+
+        // Set ALL vertical metrics explicitly so every app agrees on line height.
+        // Illustrator uses usWinAscent+usWinDescent for the point-type bounding box.
+        // When these are 0 (opentype.js default), apps fall back to ~1.2×UPM → 1.25in.
+        // Setting all three metric pairs to cap/desc ensures box = exactly 1in at 72pt.
+        if (font.tables.os2) {
+          // Typo metrics — used by apps that respect USE_TYPO_METRICS (modern)
+          // Exact metric configuration copied from ProLook ArabianNights reference font
+          // which correctly shows 1in expanded outlines in Illustrator at cap=1in.
+          font.tables.os2.sTypoAscender = 1000;
+          font.tables.os2.sTypoDescender = 0;
+          font.tables.os2.sTypoLineGap = 0;
+          font.tables.os2.usWinAscent = 1000;
+          font.tables.os2.usWinDescent = 2; // matches head.yMin, same as ArabianNights
+          font.tables.os2.sCapHeight = 1000;
+          font.tables.os2.sxHeight = 700;
+          font.tables.os2.fsType = 0;
+          // 0x40 = REGULAR bit only. NO USE_TYPO_METRICS (0x80).
+          // ArabianNights uses 0x40. With USE_TYPO_METRICS set, Illustrator
+          // calculates leading differently and the text frame grows beyond 1in.
+          font.tables.os2.fsSelection = 0x40;
+
+          // Windows GDI requires a non-zero panose classification to treat the font
+          // as valid. bFamilyType=2 (Text & Display), all others 0 = "any".
+          font.tables.os2.panose = [2, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+          // OS/2 version must be ≥ 4 for sCapHeight/sxHeight to be read by Windows.
+          // opentype.js defaults to version 3; bump to 4.
+          font.tables.os2.version = 4;
+
+          // achVendID: 4 ASCII chars, space-padded. Empty string causes Windows font
+          // validation warnings; use a safe placeholder.
+          font.tables.os2.achVendID = "    ";
+
+          // usWeightClass: 400 = Regular. Zero confuses Windows font picker.
+          font.tables.os2.usWeightClass = 400;
+
+          // usWidthClass: 5 = Medium (normal). Required non-zero by Windows.
+          font.tables.os2.usWidthClass = 5;
+
+          // ulUnicodeRange1: mark Basic Latin block (U+0000–U+007F) as supported.
+          // Zero unicode ranges → Windows flags the font as having no supported chars.
+          font.tables.os2.ulUnicodeRange1 = 0x00000001;
+          font.tables.os2.ulUnicodeRange2 = 0;
+          font.tables.os2.ulUnicodeRange3 = 0;
+          font.tables.os2.ulUnicodeRange4 = 0;
+
+          // ulCodePageRange: Latin-1 (bit 0). Required for Windows font linking.
+          font.tables.os2.ulCodePageRange1 = 0x00000001;
+          font.tables.os2.ulCodePageRange2 = 0;
+        }
+
+        // head.macStyle: must match fsSelection. 0 = Regular.
+        // opentype.js defaults this to 0 but be explicit.
+        if (font.tables.head) {
+          font.tables.head.macStyle = 0;
+        }
+
+        // post table: Windows requires isFixedPitch to be 0 or 1 (not undefined).
+        // It also needs a valid underlinePosition/underlineThickness.
+        if (font.tables.post) {
+          font.tables.post.isFixedPitch = 0;
+          font.tables.post.underlinePosition = -100;
+          font.tables.post.underlineThickness = 50;
+        }
+
+        // hhea is built from the Font constructor's ascender/descender —
+        // opentype.js doesn't expose font.tables.hhea pre-download, but
+        // the values passed to new opentype.Font({ascender, descender}) are correct.
+        // No action needed here — already set via constructor above.
+
+        // Extra name fields — only keys opentype.js 1.3.4 accepts
+        // Write all standard OpenType name table entries
+        const nameFields = {
+          copyright: document.getElementById("s-copyright").value,
+          fontFamily: familyBase,
+          fontSubfamily: sub,
+          uniqueID:
+            document.getElementById("s-unique-id").value ||
+            `${document.getElementById("s-postscript").value || familyBase + "-" + sub};1.000;${new Date().getFullYear()}`,
+          fullName:
+            document.getElementById("s-fullname").value ||
+            (sub === "Regular" ? familyBase : familyBase + " " + sub),
+          version:
+            document.getElementById("s-version").value || "Version 1.000",
+          postScriptName:
+            document.getElementById("s-postscript").value ||
+            (familyBase + "-" + sub).replace(/\s+/g, ""),
+          manufacturer: document.getElementById("s-manufacturer").value,
+          designer: document.getElementById("s-designer").value,
+          description: document.getElementById("s-description").value,
+          license: document.getElementById("s-license").value,
+          licenseURL: document.getElementById("s-license-url").value,
+          preferredFamily: document.getElementById("s-preferred-family").value,
+          designerURL: document.getElementById("s-designer-url").value,
+        };
+        Object.entries(nameFields).forEach(([key, val]) => {
+          if (val && val.trim()) font.names[key] = { en: val.trim() };
+        });
+
+        clearProfileCache();
+        setP(45, "Font created. Computing touch kerning...");
+        await tick();
+
+        // ── 4. Touch kerning ──────────────────────────────────────────────────
+        // CRITICAL FINDING: opentype.js 1.3.4 has NO kern table writer.
+        // font.kerningPairs is read-only (populated from parsed kern table on load).
+        // Writing to font.kerningPairs has zero effect on the exported file.
+        // Solution: compute kern pairs, then inject a raw kern table binary into
+        // the SFNT ArrayBuffer after font.toArrayBuffer() — this is the only way.
+        const kernPairsForInject = []; // [{left, right, value}]
+
+        if (doKern && cps.length > 1) {
+          // Also set font.kerningPairs for preview rendering (getKerningValue reads this)
+          font.kerningPairs = {};
+          const total = cps.length * cps.length;
+          let done = 0,
+            pairCount = 0;
+
+          for (let a = 0; a < cps.length; a++) {
+            for (let b = 0; b < cps.length; b++) {
+              const g1 = cpToOTGlyph[cps[a]];
+              const g2 = cpToOTGlyph[cps[b]];
+              if (!g1 || !g2) {
+                done++;
+                continue;
+              }
+
+              const kern = computeTouchKern(g1, g2, gap, upm, asc, res);
+              // Store ALL non-zero kern values — positive kern is valid too
+              // (e.g. round letters like "oo" may need slight positive kern to avoid
+              //  visual tightness from the convex curves facing each other)
+              if (kern !== null && kern !== 0) {
+                font.kerningPairs[`${g1.index},${g2.index}`] = kern;
+                kernPairsForInject.push({
+                  left: g1.index,
+                  right: g2.index,
+                  value: kern,
+                });
+                pairCount++;
+              }
+              done++;
+              if (done % 5 === 0) {
+                const pct = 45 + Math.round((done / total) * 43);
+                setP(
+                  pct,
+                  `Kerning ${done}/${total} pairs... (${pairCount} set)`,
+                );
+                await tick();
+              }
+            }
+          }
+          log(`Touch kern: ${pairCount} negative pairs computed`, "ok");
+        }
+
+        setP(90, "Serializing font...");
+        await tick();
+
+        // ── 5. Measure true ink yMax, calibrate sCapHeight, serialize ──────────
+        // Bezier curve extrema can slightly exceed clamped endpoint values.
+        // We measure the actual ink yMax by sampling every glyph's curves,
+        // then set sCapHeight = trueCapHeight = round(inkYMax).
+        // At cap=1in: fontSize = UPM/sCapHeight * 72pt
+        //             expanded = inkYMax/UPM * fontSize/72
+        //                      = inkYMax/sCapHeight = 1.0000 exactly.
+        let trueInkYMax = 0;
+        for (let gi = 0; gi < cps.length; gi++) {
+          const g = cpToOTGlyph[cps[gi]];
+          if (!g || !g.path || !g.path.commands) continue;
+          let px = 0,
+            py = 0;
+          for (const cmd of g.path.commands) {
+            if (cmd.type === "M" || cmd.type === "L") {
+              if (cmd.y > trueInkYMax) trueInkYMax = cmd.y;
+              px = cmd.x;
+              py = cmd.y;
+            } else if (cmd.type === "C") {
+              for (let k = 0; k <= 200; k++) {
+                const t = k / 200,
+                  mt = 1 - t;
+                const y =
+                  mt * mt * mt * py +
+                  3 * mt * mt * t * cmd.y1 +
+                  3 * mt * t * t * cmd.y2 +
+                  t * t * t * cmd.y;
+                if (y > trueInkYMax) trueInkYMax = y;
+              }
+              px = cmd.x;
+              py = cmd.y;
+            } else if (cmd.type === "Q") {
+              for (let k = 0; k <= 100; k++) {
+                const t = k / 100,
+                  mt = 1 - t;
+                const y = mt * mt * py + 2 * mt * t * cmd.y1 + t * t * cmd.y;
+                if (y > trueInkYMax) trueInkYMax = y;
+              }
+              px = cmd.x;
+              py = cmd.y;
+            }
+          }
+        }
+
+        // Final exact normalization
+        if (trueInkYMax > 0 && Math.abs(trueInkYMax - cap) > 1e-6) {
+          const scaleY = cap / trueInkYMax;
+
+          for (let gi = 0; gi < cps.length; gi++) {
+            const g = cpToOTGlyph[cps[gi]];
+            if (!g || !g.path || !g.path.commands) continue;
+
+            for (const cmd of g.path.commands) {
+              if ("y" in cmd) cmd.y *= scaleY;
+              if ("y1" in cmd) cmd.y1 *= scaleY;
+              if ("y2" in cmd) cmd.y2 *= scaleY;
+            }
+          }
+
+          trueInkYMax = cap;
+        }
+
+        const trueCapHeight = Math.round(trueInkYMax) || cap;
+        log(
+          `True ink yMax=${trueInkYMax.toFixed(4)} rounded to ${trueCapHeight} → sCapHeight=${trueCapHeight}`,
+          "ok",
+        );
+        if (font.tables.os2) font.tables.os2.sCapHeight = trueCapHeight;
+
+        try {
+          let ab = font.toArrayBuffer();
+
+          // ── Fix CFF FontBBox yMax to trueCapHeight ────────────────────────
+          // opentype.js sets CFF FontBBox yMax = advanceWidthMax (wrong).
+          // Illustrator reads this for cap height calibration.
+          // Patch to trueCapHeight so fontSize = UPM/trueCapHeight * 72pt.
+          ab = fixCFFFontBBox(ab, trueCapHeight);
+
+          if (kernPairsForInject.length > 0) {
+            setP(
+              95,
+              `Injecting kern table (${kernPairsForInject.length} pairs)...`,
+            );
+            await tick();
+            ab = injectKernTable(ab, kernPairsForInject);
+            log(
+              `Kern table injected (${kernPairsForInject.length} pairs)`,
+              "ok",
+            );
+          }
+
+          // Store everything — export step will download when user is ready
+          builtFont = font;
+          builtFontAB = ab;
+          builtKernCount = kernPairsForInject.length;
+          builtGlyphCount = otGlyphs.length - 1;
+          builtUPM = upm;
+          builtCap = cap;
+
+          setP(100, "Build complete — check preview below");
+          log(
+            `Build complete: ${builtGlyphCount} glyphs · ${upm} UPM · cap ${cap} · ${kernPairsForInject.length} kern pairs`,
+            "ok",
+          );
+
+          // Show preview and export cards
+          document
+            .getElementById("build-preview-card")
+            .classList.remove("hidden");
+          document
+            .getElementById("build-export-card")
+            .classList.remove("hidden");
+
+          // Populate export stats
+          document.getElementById("build-stats").innerHTML =
+            `${builtGlyphCount} glyphs &nbsp;·&nbsp; ${upm} UPM &nbsp;·&nbsp; cap=${cap} &nbsp;·&nbsp; ${kernPairsForInject.length} kern pairs &nbsp;·&nbsp; ${(ab.byteLength / 1024).toFixed(1)} KB`;
+
+          renderBuildPreview();
+
+          setTimeout(() => {
+            prog.classList.remove("show");
+            setP(0, "");
+          }, 2000);
+        } catch (e) {
+          log("Build error: " + e.message, "err");
+          setP(0, "");
+          prog.classList.remove("show");
+        }
+      }
+
+      // ── EXPORT (download the already-built font) ───────────────────────────────
+      function exportFont() {
+        if (!builtFontAB) {
+          log("Nothing built yet — run Build first", "err");
+          return;
+        }
+        const name =
+          (document.getElementById("out-name").value.trim() || "myfont") +
+          ".otf";
+        try {
+          const blob = new Blob([builtFontAB], { type: "font/otf" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = name;
+          a.click();
+          URL.revokeObjectURL(url);
+          log(`Downloaded: ${name}`, "ok");
+        } catch (e) {
+          log("Export error: " + e.message, "err");
+        }
+      }
+
+      // ── BUILD PREVIEW RENDERER ─────────────────────────────────────────────────
+      function renderBuildPreview() {
+        if (!builtFont) return;
+        const canvas = document.getElementById("build-prev-canvas");
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
+        const W = canvas.offsetWidth || 800;
+        canvas.width = W;
+        canvas.height = 160;
+
+        const bg = document.getElementById("build-prev-bg").value;
+        const text =
+          document.getElementById("build-prev-text").value || "1234567890";
+        const size =
+          parseInt(document.getElementById("build-prev-size").value) || 90;
+
+        if (bg === "black") {
+          ctx.fillStyle = "#111";
+          ctx.fillRect(0, 0, W, 160);
+          ctx.fillStyle = "#fff";
+        } else if (bg === "grid") {
+          ctx.fillStyle = "#f0f0f0";
+          ctx.fillRect(0, 0, W, 160);
+          ctx.strokeStyle = "#ddd";
+          ctx.lineWidth = 0.5;
+          for (let x = 0; x < W; x += 20) {
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, 160);
+            ctx.stroke();
+          }
+          for (let y = 0; y < 160; y += 20) {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(W, y);
+            ctx.stroke();
+          }
+          ctx.fillStyle = "#111";
+        } else {
+          ctx.fillStyle = "#fff";
+          ctx.fillRect(0, 0, W, 160);
+          ctx.fillStyle = "#111";
+        }
+
+        // Draw baseline guide
+        const baseline = 128;
+        const capLine = baseline - size;
+        ctx.strokeStyle = "rgba(91,143,255,0.25)";
+        ctx.lineWidth = 0.5;
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(0, baseline);
+        ctx.lineTo(W, baseline);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(0, capLine);
+        ctx.lineTo(W, capLine);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Draw glyphs with kerning
+        const scale = size / builtFont.unitsPerEm;
+        let curX = 10;
+        for (let i = 0; i < text.length; i++) {
+          const g = builtFont.charToGlyph(text[i]);
+          if (!g || !g.advanceWidth) continue;
+          const path = g.getPath(curX, baseline, size);
+          path.fill = ctx.fillStyle;
+          path.draw(ctx);
+          let adv = (g.advanceWidth || 0) * scale;
+          if (i + 1 < text.length) {
+            const g2 = builtFont.charToGlyph(text[i + 1]);
+            if (g2)
+              try {
+                adv += builtFont.getKerningValue(g, g2) * scale;
+              } catch (e) {}
+          }
+          curX += adv;
+        }
+
+        // Labels
+        ctx.fillStyle = "rgba(91,143,255,0.5)";
+        ctx.font = "9px monospace";
+        ctx.fillText("baseline", 4, baseline - 2);
+        ctx.fillText("cap", 4, capLine - 2);
+      }
+
+      // ── KERN PAIR INSPECTOR ────────────────────────────────────────────────────
+      function checkKernPair() {
+        if (!builtFont) return;
+        const c1 = document.getElementById("kern-c1").value;
+        const c2 = document.getElementById("kern-c2").value;
+        const el = document.getElementById("kern-result");
+        if (!c1 || !c2) {
+          el.textContent = "—";
+          return;
+        }
+        try {
+          const g1 = builtFont.charToGlyph(c1);
+          const g2 = builtFont.charToGlyph(c2);
+          const kv = builtFont.getKerningValue(g1, g2);
+          el.textContent = `kern(${c1}→${c2}) = ${kv}`;
+          el.style.color =
+            kv < 0 ? "var(--green)" : kv > 0 ? "var(--amber)" : "var(--dim)";
+        } catch (e) {
+          el.textContent = "error";
+        }
+      }
+
+      // ── FIX CFF FontBBox yMax ─────────────────────────────────────────────────
+      // opentype.js incorrectly sets CFF FontBBox[3] (yMax) to advanceWidthMax
+      // instead of the actual glyph height. Illustrator reads this value to
+      // calibrate "Cap Height" sizing. We fix it by patching the serialized bytes.
+      //
+      // CFF integer encoding for values 108-1131:
+      //   1-byte: value - 139 + 0x8b  (for -107 to 107)
+      //   2-byte: (b0-247)*256 + b1 + 108  where b0 = 247..250 (for 108..1131)
+      //   2-byte: -(b0-251)*256 - b1 - 108 where b0 = 251..254 (negative)
+      // FontBBox is encoded as: [xMin, yMin, xMax, yMax, op5]
+      // We find the 2-byte encoding of the wrong yMax and replace with cap encoding.
+      function fixCFFFontBBox(fontAB, cap) {
+        const data = new Uint8Array(fontAB);
+        const view = new DataView(fontAB);
+
+        // Find CFF table
+        const numTables = view.getUint16(4);
+        let cffOff = 0,
+          cffLen = 0;
+        for (let i = 0; i < numTables; i++) {
+          const recOff = 12 + i * 16;
+          const tag = String.fromCharCode(
+            data[recOff],
+            data[recOff + 1],
+            data[recOff + 2],
+            data[recOff + 3],
+          );
+          if (tag === "CFF ") {
+            cffOff = view.getUint32(recOff + 8);
+            cffLen = view.getUint32(recOff + 12);
+            break;
+          }
+        }
+        if (!cffOff) return fontAB;
+
+        // CFF 2-byte encoding: b0 in 247-250
+        // value = (b0-247)*256 + b1 + 108
+        // For a given value (108-1131): b0 = 247 + Math.floor((value-108)/256), b1 = (value-108)%256
+        function encode2(val) {
+          if (val < 108 || val > 1131) return null;
+          const b0 = 247 + Math.floor((val - 108) / 256);
+          const b1 = (val - 108) % 256;
+          return [b0, b1];
+        }
+
+        // Find the FontBBox operator (0x05) in the CFF top dict
+        // It follows 4 integers: [xMin, yMin, xMax, yMax, 0x05]
+        // Strategy: find 0x05 preceded by the yMax encoding, followed by nothing
+        // or another operator. We look for the pattern near the start of CFF.
+        const cffSlice = data.slice(cffOff, cffOff + Math.min(cffLen, 256));
+
+        // Find operator 5 in first 256 bytes of CFF top dict
+        for (let pos = 10; pos < cffSlice.length - 3; pos++) {
+          if (cffSlice[pos] === 0x05) {
+            // Operator 5 found. The 2 bytes before it should be yMax encoding.
+            // yMax is encoded as 2 bytes (b0 in 247-250 range)
+            const b0 = cffSlice[pos - 2];
+            const b1 = cffSlice[pos - 1];
+            if (b0 >= 247 && b0 <= 250) {
+              const currentYMax = (b0 - 247) * 256 + b1 + 108;
+              if (
+                currentYMax !== cap &&
+                currentYMax > 0 &&
+                currentYMax < 2000
+              ) {
+                // Encode cap as 2-byte CFF integer
+                const capEncoded = encode2(cap);
+                if (capEncoded) {
+                  const absPos = cffOff + pos - 2;
+                  data[absPos] = capEncoded[0];
+                  data[absPos + 1] = capEncoded[1];
+                  log(
+                    `CFF FontBBox yMax patched: ${currentYMax} → ${cap}`,
+                    "ok",
+                  );
+                }
+              }
+            }
+            break;
+          }
+        }
+
+        return fontAB;
+      }
+
+      // ── KERN TABLE BINARY INJECTOR ─────────────────────────────────────────────
+      // opentype.js 1.3.4 cannot write kern tables. We build the raw bytes and
+      // inject them into the SFNT structure manually.
+      function injectKernTable(fontAB, pairs) {
+        if (!pairs || pairs.length === 0) return fontAB;
+
+        // Sort pairs by left index, then right (required for SFNT kern format 0 binary search)
+        pairs = pairs
+          .slice()
+          .sort((a, b) =>
+            a.left !== b.left ? a.left - b.left : a.right - b.right,
+          );
+        const nPairs = pairs.length;
+
+        // Build kern subtable binary
+        const searchRange =
+          Math.pow(2, Math.floor(Math.log2(Math.max(nPairs, 1)))) * 6;
+        const entrySelector = nPairs > 1 ? Math.floor(Math.log2(nPairs)) : 0;
+        const rangeShift = nPairs * 6 - searchRange;
+        const subtableLen = 14 + nPairs * 6; // 6 hdr + 8 binSearch hdr + pairs
+        const tableSize = 4 + subtableLen; // 4-byte table header + subtable
+        const padded = Math.ceil(tableSize / 4) * 4;
+
+        const kb = new ArrayBuffer(padded);
+        const kdv = new DataView(kb);
+        let kp = 0;
+        kdv.setUint16(kp, 0);
+        kp += 2; // table version
+        kdv.setUint16(kp, 1);
+        kp += 2; // nTables = 1
+        kdv.setUint16(kp, 0);
+        kp += 2; // subtable version
+        kdv.setUint16(kp, subtableLen);
+        kp += 2; // subtable length
+        kdv.setUint16(kp, 1);
+        kp += 2; // coverage: horizontal, format 0
+        kdv.setUint16(kp, nPairs);
+        kp += 2;
+        kdv.setUint16(kp, searchRange);
+        kp += 2;
+        kdv.setUint16(kp, entrySelector);
+        kp += 2;
+        kdv.setUint16(kp, rangeShift);
+        kp += 2;
+        for (const pr of pairs) {
+          kdv.setUint16(kp, pr.left);
+          kp += 2;
+          kdv.setUint16(kp, pr.right);
+          kp += 2;
+          kdv.setInt16(kp, pr.value);
+          kp += 2;
+        }
+
+        // Parse existing SFNT directory
+        const orig = new DataView(fontAB);
+        const origU8 = new Uint8Array(fontAB);
+        const numTbls = orig.getUint16(4);
+
+        // Check kern doesn't already exist
+        for (let i = 0; i < numTbls; i++) {
+          const o = 12 + i * 16;
+          const tag = String.fromCharCode(
+            orig.getUint8(o),
+            orig.getUint8(o + 1),
+            orig.getUint8(o + 2),
+            orig.getUint8(o + 3),
+          );
+          if (tag === "kern") return fontAB; // already has kern
+        }
+
+        const newNum = numTbls + 1;
+        const newSR = Math.pow(2, Math.floor(Math.log2(newNum))) * 16;
+        const newES = Math.floor(Math.log2(newNum));
+        const newRS = newNum * 16 - newSR;
+
+        // New font = orig + 16 bytes (one extra table record) + padded kern bytes
+        const newSize = fontAB.byteLength + 16 + padded;
+        const newBuf = new ArrayBuffer(newSize);
+        const nv = new DataView(newBuf);
+        const nu8 = new Uint8Array(newBuf);
+
+        // SFNT header (12 bytes)
+        nv.setUint32(0, orig.getUint32(0)); // sfntVersion
+        nv.setUint16(4, newNum);
+        nv.setUint16(6, newSR);
+        nv.setUint16(8, newES);
+        nv.setUint16(10, newRS);
+
+        // Existing table records shifted by +16 (one extra 16-byte record inserted)
+        for (let i = 0; i < numTbls; i++) {
+          const src = 12 + i * 16,
+            dst = 12 + i * 16;
+          nu8.set(origU8.slice(src, src + 8), dst); // tag + checksum
+          nv.setUint32(dst + 8, orig.getUint32(src + 8) + 16); // offset +16
+          nv.setUint32(dst + 12, orig.getUint32(src + 12)); // length unchanged
+        }
+
+        // New kern table record (last in directory)
+        const recOff = 12 + numTbls * 16;
+        nu8.set([107, 101, 114, 110], recOff); // 'kern'
+        nv.setUint32(recOff + 4, 0); // checksum (0 = tolerated)
+        nv.setUint32(recOff + 8, fontAB.byteLength + 16); // offset to kern data
+        nv.setUint32(recOff + 12, tableSize); // actual (unpadded) length
+
+        // Copy original table data (starts after orig directory, now shifted +16)
+        const origDataStart = 12 + numTbls * 16;
+        nu8.set(origU8.slice(origDataStart), origDataStart + 16);
+
+        // Append kern table bytes at end
+        nu8.set(new Uint8Array(kb), fontAB.byteLength + 16);
+
+        return newBuf;
+      }
+
+      function tick() {
+        return new Promise((r) => setTimeout(r, 0));
+      }
+
+      // ── INIT ───────────────────────────────────────────────────────────────────
+      updateSummary();
+      setEmbed(0);
+    </script>
+  </body>
+</html>
