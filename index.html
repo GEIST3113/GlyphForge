@@ -2,15 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GlyphForge</title>
-    <link
-      rel="preconnect"
-      href="https://api.fontshare.com"
-    />
+    <link rel="preconnect" href="https://api.fontshare.com" />
     <link
       href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i&display=swap"
       rel="stylesheet"
@@ -113,7 +107,7 @@
         box-sizing: border-box;
         margin: 0;
         padding: 0;
-        font-family: 'Supreme', sans-serif;
+        font-family: "Supreme", sans-serif;
       }
       html,
       body {
@@ -904,16 +898,8 @@
             ✕ CLEAR
           </button>
         </div>
-        <div
-          class="drop"
-          id="drop"
-        >
-          <input
-            type="file"
-            id="file-input"
-            accept=".svg"
-            multiple
-          />
+        <div class="drop" id="drop">
+          <input type="file" id="file-input" accept=".svg" multiple />
           <input
             type="file"
             id="folder-input"
@@ -941,14 +927,8 @@
             📁 Choose folder
           </button>
         </div>
-        <div
-          class="glyph-list"
-          id="glyph-list"
-        >
-          <div
-            class="empty"
-            id="empty-glyphs"
-          >
+        <div class="glyph-list" id="glyph-list">
+          <div class="empty" id="empty-glyphs">
             <div class="empty-icon">◻</div>
             <p>Drop SVG files to begin. Each file becomes one glyph.</p>
           </div>
@@ -958,37 +938,14 @@
       <!-- MAIN -->
       <main>
         <div class="tabs">
-          <div
-            class="tab active"
-            data-tab="settings"
-          >
-            Font Settings
-          </div>
-          <div
-            class="tab"
-            data-tab="metrics"
-          >
-            Metrics
-          </div>
-          <div
-            class="tab"
-            data-tab="kerning"
-          >
-            Kerning
-          </div>
-          <div
-            class="tab"
-            data-tab="build"
-          >
-            Build & Export
-          </div>
+          <div class="tab active" data-tab="settings">Font Settings</div>
+          <div class="tab" data-tab="metrics">Metrics</div>
+          <div class="tab" data-tab="kerning">Kerning</div>
+          <div class="tab" data-tab="build">Build & Export</div>
         </div>
 
         <!-- SETTINGS -->
-        <div
-          class="panel active"
-          id="tab-settings"
-        >
+        <div class="panel active" id="tab-settings">
           <div class="card">
             <h3>
               Font Name Fields
@@ -1021,10 +978,7 @@
                   >Subfamily
                   <span style="color: var(--dim)">(nameID 2)</span></label
                 >
-                <select
-                  id="s-sub"
-                  onchange="autoFillNames()"
-                >
+                <select id="s-sub" onchange="autoFillNames()">
                   <option>Regular</option>
                   <option>Bold</option>
                   <option>Italic</option>
@@ -1095,11 +1049,7 @@
                   >Designer
                   <span style="color: var(--dim)">(nameID 9)</span></label
                 >
-                <input
-                  type="text"
-                  id="s-designer"
-                  placeholder="Full name"
-                />
+                <input type="text" id="s-designer" placeholder="Full name" />
               </div>
               <div class="field">
                 <label
@@ -1209,10 +1159,7 @@
                 />
               </div>
             </div>
-            <div
-              class="fg c1"
-              style="margin-top: 4px"
-            >
+            <div class="fg c1" style="margin-top: 4px">
               <p style="color: var(--dim); line-height: 1.7">
                 Quick templates:
                 <button
@@ -1266,47 +1213,26 @@
 
           <div class="card">
             <h3>Embedding</h3>
-            <div
-              class="trow"
-              onclick="setEmbed(0)"
-              id="emb-0"
-            >
+            <div class="trow" onclick="setEmbed(0)" id="emb-0">
               <div class="ti">
                 <strong>Installable (0) — Recommended</strong
                 ><span>Freely embeddable, editable, no restrictions</span>
               </div>
-              <div
-                class="tog on"
-                id="emb-tog-0"
-              ></div>
+              <div class="tog on" id="emb-tog-0"></div>
             </div>
-            <div
-              class="trow"
-              onclick="setEmbed(8)"
-              id="emb-8"
-            >
+            <div class="trow" onclick="setEmbed(8)" id="emb-8">
               <div class="ti">
                 <strong>Editable (8)</strong
                 ><span>Embeddable for document editing</span>
               </div>
-              <div
-                class="tog"
-                id="emb-tog-8"
-              ></div>
+              <div class="tog" id="emb-tog-8"></div>
             </div>
-            <div
-              class="trow"
-              onclick="setEmbed(4)"
-              id="emb-4"
-            >
+            <div class="trow" onclick="setEmbed(4)" id="emb-4">
               <div class="ti">
                 <strong>Preview &amp; Print only (4)</strong
                 ><span>View and print, no editing</span>
               </div>
-              <div
-                class="tog"
-                id="emb-tog-4"
-              ></div>
+              <div class="tog" id="emb-tog-4"></div>
             </div>
           </div>
 
@@ -1325,48 +1251,22 @@
         </div>
 
         <!-- METRICS -->
-        <div
-          class="panel"
-          id="tab-metrics"
-        >
-          <div
-            class="mgrid"
-            id="metrics-grid"
-          >
+        <div class="panel" id="tab-metrics">
+          <div class="mgrid" id="metrics-grid">
             <div class="mcard">
-              <div
-                class="mv"
-                id="m-glyphs"
-              >
-                0
-              </div>
+              <div class="mv" id="m-glyphs">0</div>
               <div class="ml">Glyphs</div>
             </div>
             <div class="mcard">
-              <div
-                class="mv"
-                id="m-upm"
-              >
-                1000
-              </div>
+              <div class="mv" id="m-upm">1000</div>
               <div class="ml">Units/Em</div>
             </div>
             <div class="mcard">
-              <div
-                class="mv"
-                id="m-cap"
-              >
-                1000
-              </div>
+              <div class="mv" id="m-cap">1000</div>
               <div class="ml">Cap Height</div>
             </div>
             <div class="mcard">
-              <div
-                class="mv"
-                id="m-asc"
-              >
-                1000
-              </div>
+              <div class="mv" id="m-asc">1000</div>
               <div class="ml">Ascender</div>
             </div>
           </div>
@@ -1391,31 +1291,11 @@
 
             <!-- All critical metrics are HARDCODED as hidden inputs.
              Browser cannot cache them. Values are always correct. -->
-            <input
-              type="hidden"
-              id="me-upm"
-              value="1000"
-            />
-            <input
-              type="hidden"
-              id="me-cap"
-              value="1000"
-            />
-            <input
-              type="hidden"
-              id="me-asc"
-              value="1000"
-            />
-            <input
-              type="hidden"
-              id="me-desc"
-              value="0"
-            />
-            <input
-              type="hidden"
-              id="me-lg"
-              value="0"
-            />
+            <input type="hidden" id="me-upm" value="1000" />
+            <input type="hidden" id="me-cap" value="1000" />
+            <input type="hidden" id="me-asc" value="1000" />
+            <input type="hidden" id="me-desc" value="0" />
+            <input type="hidden" id="me-lg" value="0" />
 
             <!-- Display only — not submitted, not read by JS -->
             <div
@@ -1442,10 +1322,7 @@
             </p>
 
             <!-- x-Height is safe to let user set — doesn't affect bounding box -->
-            <div
-              class="fg c2"
-              style="margin-top: 10px"
-            >
+            <div class="fg c2" style="margin-top: 10px">
               <div class="field">
                 <label
                   >x-Height
@@ -1482,10 +1359,7 @@
 
           <div class="card">
             <h3>Height Normalization</h3>
-            <div
-              class="trow"
-              onclick="tog('normalize')"
-            >
+            <div class="trow" onclick="tog('normalize')">
               <div class="ti">
                 <strong>Uniform Cap Height</strong
                 ><span
@@ -1493,15 +1367,9 @@
                   aspect ratio.</span
                 >
               </div>
-              <div
-                class="tog on"
-                id="opt-normalize"
-              ></div>
+              <div class="tog on" id="opt-normalize"></div>
             </div>
-            <div
-              class="trow"
-              onclick="tog('flip-y')"
-            >
+            <div class="trow" onclick="tog('flip-y')">
               <div class="ti">
                 <strong>Flip Y axis</strong
                 ><span
@@ -1509,19 +1377,13 @@
                   most SVGs.</span
                 >
               </div>
-              <div
-                class="tog on"
-                id="opt-flip-y"
-              ></div>
+              <div class="tog on" id="opt-flip-y"></div>
             </div>
           </div>
 
           <div class="card">
             <h3>Side Bearings</h3>
-            <div
-              class="trow"
-              onclick="tog('zero-bearings')"
-            >
+            <div class="trow" onclick="tog('zero-bearings')">
               <div class="ti">
                 <strong>Zero Side Bearings</strong
                 ><span
@@ -1531,15 +1393,9 @@
                   spacing.</span
                 >
               </div>
-              <div
-                class="tog on"
-                id="opt-zero-bearings"
-              ></div>
+              <div class="tog on" id="opt-zero-bearings"></div>
             </div>
-            <div
-              style="margin-top: 10px"
-              class="fg c3"
-            >
+            <div style="margin-top: 10px" class="fg c3">
               <div class="field">
                 <label>Left Bearing (when not zeroed)</label>
                 <input
@@ -1562,10 +1418,7 @@
                 <label>Uniform Bearing Override</label>
                 <select id="me-bear-mode">
                   <option value="original">Keep SVG width as advance</option>
-                  <option
-                    value="zero"
-                    selected
-                  >
+                  <option value="zero" selected>
                     Zero both (xMin→0, adv=xMax)
                   </option>
                   <option value="custom">Custom LSB + RSB values</option>
@@ -1583,10 +1436,7 @@
         </div>
 
         <!-- KERNING -->
-        <div
-          class="panel"
-          id="tab-kerning"
-        >
+        <div class="panel" id="tab-kerning">
           <div class="card">
             <h3>Touch Kerning</h3>
             <p
@@ -1598,10 +1448,7 @@
               correctly for any font type: italic, upright, script, display,
               variable-width. Asymmetric pairs (AB ≠ BA) computed independently.
             </p>
-            <div
-              class="trow"
-              onclick="tog('do-kern')"
-            >
+            <div class="trow" onclick="tog('do-kern')">
               <div class="ti">
                 <strong>Compute Touch Kerning</strong
                 ><span
@@ -1609,30 +1456,14 @@
                   sets</span
                 >
               </div>
-              <div
-                class="tog on"
-                id="opt-do-kern"
-              ></div>
+              <div class="tog on" id="opt-do-kern"></div>
             </div>
-            <div
-              class="fg c2"
-              style="margin-top: 10px"
-            >
+            <div class="fg c2" style="margin-top: 10px">
               <div class="field">
                 <label>Gap (font units, 0 = flush touch)</label>
-                <input
-                  type="number"
-                  id="k-gap"
-                  value="0"
-                  min="-50"
-                  max="200"
-                />
+                <input type="number" id="k-gap" value="0" min="-50" max="200" />
               </div>
-              <input
-                type="hidden"
-                id="k-res"
-                value="2"
-              />
+              <input type="hidden" id="k-res" value="2" />
             </div>
           </div>
 
@@ -1652,22 +1483,11 @@
             </p>
           </div>
 
-          <div
-            id="kern-progress"
-            class="progress-wrap"
-          >
+          <div id="kern-progress" class="progress-wrap">
             <div class="pbar-bg">
-              <div
-                class="pbar"
-                id="pbar"
-              ></div>
+              <div class="pbar" id="pbar"></div>
             </div>
-            <div
-              class="ptext"
-              id="ptext"
-            >
-              Computing...
-            </div>
+            <div class="ptext" id="ptext">Computing...</div>
           </div>
         </div>
 
@@ -1685,16 +1505,10 @@
           height="140"
           style="display: none"
         ></canvas>
-        <div
-          id="gd-stats"
-          style="display: none"
-        ></div>
+        <div id="gd-stats" style="display: none"></div>
 
         <!-- BUILD -->
-        <div
-          class="panel"
-          id="tab-build"
-        >
+        <div class="panel" id="tab-build">
           <!-- Step 1: Build -->
           <div class="card">
             <h3>Step 1 — Build</h3>
@@ -1706,11 +1520,7 @@
               downloading.
             </p>
             <div class="brow">
-              <button
-                class="btn primary"
-                id="btn-build"
-                onclick="buildFont()"
-              >
+              <button class="btn primary" id="btn-build" onclick="buildFont()">
                 ⚙ Build Font
               </button>
             </div>
@@ -1734,25 +1544,14 @@
               style="margin-top: 10px"
             >
               <div class="pbar-bg">
-                <div
-                  class="pbar"
-                  id="build-pbar"
-                ></div>
+                <div class="pbar" id="build-pbar"></div>
               </div>
-              <div
-                class="ptext"
-                id="build-ptext"
-              >
-                Building...
-              </div>
+              <div class="ptext" id="build-ptext">Building...</div>
             </div>
           </div>
 
           <!-- Step 2: Preview (shown after build) -->
-          <div
-            class="card hidden"
-            id="build-preview-card"
-          >
+          <div class="card hidden" id="build-preview-card">
             <h3>Step 2 — Preview</h3>
             <canvas
               id="build-prev-canvas"
@@ -1877,10 +1676,7 @@
           </div>
 
           <!-- Step 3: Export (shown after build) -->
-          <div
-            class="card hidden"
-            id="build-export-card"
-          >
+          <div class="card hidden" id="build-export-card">
             <h3>Step 3 — Export</h3>
             <div class="fg c2">
               <div class="field">
@@ -1962,10 +1758,7 @@
 
     <div class="statusbar">
       <span
-        ><span
-          class="dot"
-          id="status-dot"
-        ></span
+        ><span class="dot" id="status-dot"></span
         ><span id="status-text">No glyphs loaded</span></span
       >
       <span id="status-count"></span>
@@ -3071,20 +2864,23 @@
         for (let i = 0; i < numTables; i++) {
           const recOff = 12 + i * 16;
           const tag = String.fromCharCode(
-            data[recOff], data[recOff+1], data[recOff+2], data[recOff+3]
+            data[recOff],
+            data[recOff + 1],
+            data[recOff + 2],
+            data[recOff + 3],
           );
-          if (tag === 'hhea') {
+          if (tag === "hhea") {
             const tableOff = view.getUint32(recOff + 8);
             // hhea layout (OpenType spec): version(4) + ascender(2) + descender(2)
             // Patch both +4 (ascender) verification and +6 (descender)
             // Also patch ascender to 1000 to be certain
-            view.setInt16(tableOff + 4, 1000);  // ascender
-            view.setInt16(tableOff + 6, value);  // descender
-            log(`hhea.descender patched to ${value}`, 'ok');
+            view.setInt16(tableOff + 4, 1000); // ascender
+            view.setInt16(tableOff + 6, value); // descender
+            log(`hhea.descender patched to ${value}`, "ok");
             return fontAB;
           }
         }
-        log('hhea table not found — patch skipped', 'warn');
+        log("hhea table not found — patch skipped", "warn");
         return fontAB;
       }
 
@@ -3185,221 +2981,253 @@
         //   - Whether glyph is tall (like "4") or has floating strokes (like "7")
         // Result: cap=1in → every character's ink = exactly 1in top to bottom.
 
-      for (let gi = 0; gi < cps.length; gi++) {
-        const g = glyphs[cps[gi]];
-        const scale = doNorm ? cap / g.vh : upm / maxVH;
-        const fontH = Math.round(g.vh * scale);
-        const otPath = svgPathToOpentypePath(
-          g.svgD,
-          scale,
-          doFlip,
-          doFlip ? cap : fontH,
-        );
+        for (let gi = 0; gi < cps.length; gi++) {
+          const g = glyphs[cps[gi]];
+          const scale = doNorm ? cap / g.vh : upm / maxVH;
+          const fontH = Math.round(g.vh * scale);
+          const otPath = svgPathToOpentypePath(
+            g.svgD,
+            scale,
+            doFlip,
+            doFlip ? cap : fontH,
+          );
 
-        if (!otPath.commands || otPath.commands.length === 0) continue;
+          if (!otPath.commands || otPath.commands.length === 0) continue;
 
-        // ── Step A: find on-curve extreme Y points ────────────────────────
-        let onYMin = Infinity, onYMax = -Infinity;
-        for (const cmd of otPath.commands) {
-          if (cmd.type === "M" || cmd.type === "L" || cmd.type === "C" || cmd.type === "Q") {
-            if (cmd.y < onYMin) onYMin = cmd.y;
-            if (cmd.y > onYMax) onYMax = cmd.y;
-          }
-        }
-        if (onYMin === Infinity) {
-          const ink = trueInkBounds(otPath);
-          onYMin = ink.yMin;
-          onYMax = ink.yMax;
-        }
-        const onH = onYMax - onYMin;
-        if (onH < 5) continue;
-
-        // ── Step B: normalize Y only — shift by onYMin, scale by cap/onH ─
-        if (onH > 1 && isFinite(onH)) {
-          const sy = cap / onH;
-          const dy = onYMin;
+          // ── Step A: find on-curve extreme Y points ────────────────────────
+          let onYMin = Infinity,
+            onYMax = -Infinity;
           for (const cmd of otPath.commands) {
-            if (cmd.y  !== undefined) cmd.y  = (cmd.y  - dy) * sy;
-            if (cmd.y1 !== undefined) cmd.y1 = (cmd.y1 - dy) * sy;
-            if (cmd.y2 !== undefined) cmd.y2 = (cmd.y2 - dy) * sy;
-          }
-        }
-
-        // ── Step C: round to integers then clamp endpoints to [0, cap] ───
-        for (const cmd of otPath.commands) {
-          if (cmd.x  !== undefined) cmd.x  = Math.round(cmd.x);
-          if (cmd.y  !== undefined) cmd.y  = Math.min(cap, Math.max(0, Math.round(cmd.y)));
-          if (cmd.x1 !== undefined) cmd.x1 = Math.round(cmd.x1);
-          if (cmd.y1 !== undefined) cmd.y1 = Math.min(cap, Math.max(0, Math.round(cmd.y1)));
-          if (cmd.x2 !== undefined) cmd.x2 = Math.round(cmd.x2);
-          if (cmd.y2 !== undefined) cmd.y2 = Math.min(cap, Math.max(0, Math.round(cmd.y2)));
-        }
-
-        // ── Step C2: clamp bezier arc overshoot (top only) ───────────────
-        // On-curve endpoints are already in [0, cap]. But cubic/quadratic
-        // arcs can bulge beyond that boundary purely due to control point
-        // geometry. We solve dy/dt = 0 analytically for each segment and
-        // pull control points inward via binary search until the arc peak
-        // sits exactly at cap. This is what makes "0" always exactly 1in
-        // in Illustrator after Create Outlines — no sampling approximation.
-
-        // Evaluates cubic Y at parameter t
-        function cubicY(y0, y1, y2, y3, t) {
-          const mt = 1 - t;
-          return mt*mt*mt*y0 + 3*mt*mt*t*y1 + 3*mt*t*t*y2 + t*t*t*y3;
-        }
-        // Evaluates quadratic Y at parameter t
-        function quadY(y0, y1, y2, t) {
-          const mt = 1 - t;
-          return mt*mt*y0 + 2*mt*t*y1 + t*t*y2;
-        }
-        // Returns all t in (0,1) where cubic dy/dt = 0
-        function cubicDyRoots(y0, y1, y2, y3) {
-          // dy/dt = 3[a·t² + b·t + c] where:
-          const a = -y0 + 3*y1 - 3*y2 + y3;
-          const b =  2*y0 - 4*y1 + 2*y2;
-          const c = -y0 + y1;
-          const roots = [];
-          if (Math.abs(a) < 1e-10) {
-            // Degenerate to linear: bt + c = 0
-            if (Math.abs(b) > 1e-10) {
-              const t = -c / b;
-              if (t > 0 && t < 1) roots.push(t);
+            if (
+              cmd.type === "M" ||
+              cmd.type === "L" ||
+              cmd.type === "C" ||
+              cmd.type === "Q"
+            ) {
+              if (cmd.y < onYMin) onYMin = cmd.y;
+              if (cmd.y > onYMax) onYMax = cmd.y;
             }
-          } else {
-            const disc = b*b - 4*a*c;
-            if (disc >= 0) {
-              const sq = Math.sqrt(disc);
-              for (const t of [(-b + sq) / (2*a), (-b - sq) / (2*a)]) {
+          }
+          if (onYMin === Infinity) {
+            const ink = trueInkBounds(otPath);
+            onYMin = ink.yMin;
+            onYMax = ink.yMax;
+          }
+          const onH = onYMax - onYMin;
+          if (onH < 5) continue;
+
+          // ── Step B: normalize Y only — shift by onYMin, scale by cap/onH ─
+          if (onH > 1 && isFinite(onH)) {
+            const sy = cap / onH;
+            const dy = onYMin;
+            for (const cmd of otPath.commands) {
+              if (cmd.y !== undefined) cmd.y = (cmd.y - dy) * sy;
+              if (cmd.y1 !== undefined) cmd.y1 = (cmd.y1 - dy) * sy;
+              if (cmd.y2 !== undefined) cmd.y2 = (cmd.y2 - dy) * sy;
+            }
+          }
+
+          // ── Step C: round to integers then clamp endpoints to [0, cap] ───
+          for (const cmd of otPath.commands) {
+            if (cmd.x !== undefined) cmd.x = Math.round(cmd.x);
+            if (cmd.y !== undefined)
+              cmd.y = Math.min(cap, Math.max(0, Math.round(cmd.y)));
+            if (cmd.x1 !== undefined) cmd.x1 = Math.round(cmd.x1);
+            if (cmd.y1 !== undefined)
+              cmd.y1 = Math.min(cap, Math.max(0, Math.round(cmd.y1)));
+            if (cmd.x2 !== undefined) cmd.x2 = Math.round(cmd.x2);
+            if (cmd.y2 !== undefined)
+              cmd.y2 = Math.min(cap, Math.max(0, Math.round(cmd.y2)));
+          }
+
+          // ── Step C2: clamp bezier arc overshoot (top only) ───────────────
+          // On-curve endpoints are already in [0, cap]. But cubic/quadratic
+          // arcs can bulge beyond that boundary purely due to control point
+          // geometry. We solve dy/dt = 0 analytically for each segment and
+          // pull control points inward via binary search until the arc peak
+          // sits exactly at cap. This is what makes "0" always exactly 1in
+          // in Illustrator after Create Outlines — no sampling approximation.
+
+          // Evaluates cubic Y at parameter t
+          function cubicY(y0, y1, y2, y3, t) {
+            const mt = 1 - t;
+            return (
+              mt * mt * mt * y0 +
+              3 * mt * mt * t * y1 +
+              3 * mt * t * t * y2 +
+              t * t * t * y3
+            );
+          }
+          // Evaluates quadratic Y at parameter t
+          function quadY(y0, y1, y2, t) {
+            const mt = 1 - t;
+            return mt * mt * y0 + 2 * mt * t * y1 + t * t * y2;
+          }
+          // Returns all t in (0,1) where cubic dy/dt = 0
+          function cubicDyRoots(y0, y1, y2, y3) {
+            // dy/dt = 3[a·t² + b·t + c] where:
+            const a = -y0 + 3 * y1 - 3 * y2 + y3;
+            const b = 2 * y0 - 4 * y1 + 2 * y2;
+            const c = -y0 + y1;
+            const roots = [];
+            if (Math.abs(a) < 1e-10) {
+              // Degenerate to linear: bt + c = 0
+              if (Math.abs(b) > 1e-10) {
+                const t = -c / b;
                 if (t > 0 && t < 1) roots.push(t);
               }
+            } else {
+              const disc = b * b - 4 * a * c;
+              if (disc >= 0) {
+                const sq = Math.sqrt(disc);
+                for (const t of [(-b + sq) / (2 * a), (-b - sq) / (2 * a)]) {
+                  if (t > 0 && t < 1) roots.push(t);
+                }
+              }
+            }
+            return roots;
+          }
+          // Returns t in (0,1) where quadratic dy/dt = 0, or null
+          function quadDyRoot(y0, y1, y2) {
+            const denom = y0 - 2 * y1 + y2;
+            if (Math.abs(denom) < 1e-10) return null;
+            const t = (y0 - y1) / denom;
+            return t > 0 && t < 1 ? t : null;
+          }
+
+          // Binary-search scale of control points until arc peak <= cap.
+          // We scale cp1 and cp2 toward the chord midpoint between p0 and p3.
+          // 16 iterations → precision < 0.001 units, well below integer rounding.
+          function clampCubicTop(cmd, prevY, capVal) {
+            // cmd: the C command. prevY: y of the preceding on-curve point.
+            const y0 = prevY,
+              y3 = cmd.y;
+            // Check if any root overshoots
+            const roots = cubicDyRoots(y0, cmd.y1, cmd.y2, y3);
+            const overshooting = roots.some(
+              (t) => cubicY(y0, cmd.y1, cmd.y2, y3, t) > capVal,
+            );
+            if (!overshooting) return;
+            // Binary search: scale cp1 and cp2 toward the p0–p3 chord
+            let lo = 0,
+              hi = 1;
+            const base1 = cmd.y1,
+              base2 = cmd.y2;
+            // chord value at the parametric position of each cp (approx 1/3, 2/3)
+            const chord1 = y0 + (y3 - y0) / 3;
+            const chord2 = y0 + (2 * (y3 - y0)) / 3;
+            for (let iter = 0; iter < 16; iter++) {
+              const mid = (lo + hi) / 2;
+              const ty1 = chord1 + (base1 - chord1) * mid;
+              const ty2 = chord2 + (base2 - chord2) * mid;
+              const stillOver = cubicDyRoots(y0, ty1, ty2, y3).some(
+                (t) => cubicY(y0, ty1, ty2, y3, t) > capVal,
+              );
+              if (stillOver) hi = mid;
+              else lo = mid;
+            }
+            const finalScale = (lo + hi) / 2;
+            cmd.y1 = chord1 + (base1 - chord1) * finalScale;
+            cmd.y2 = chord2 + (base2 - chord2) * finalScale;
+          }
+
+          function clampQuadTop(cmd, prevY, capVal) {
+            const y0 = prevY,
+              y2 = cmd.y;
+            const t = quadDyRoot(y0, cmd.y1, y2);
+            if (t === null) return;
+            if (quadY(y0, cmd.y1, y2, t) <= capVal) return;
+            // Binary search: pull cp toward chord midpoint
+            let lo = 0,
+              hi = 1;
+            const base1 = cmd.y1;
+            const chord1 = (y0 + y2) / 2;
+            for (let iter = 0; iter < 16; iter++) {
+              const mid = (lo + hi) / 2;
+              const ty1 = chord1 + (base1 - chord1) * mid;
+              const tRoot = quadDyRoot(y0, ty1, y2);
+              const stillOver =
+                tRoot !== null && quadY(y0, ty1, y2, tRoot) > capVal;
+              if (stillOver) hi = mid;
+              else lo = mid;
+            }
+            cmd.y1 = chord1 + (base1 - chord1) * ((lo + hi) / 2);
+          }
+
+          // Walk every segment, tracking the previous on-curve Y
+          let prevY = 0;
+          for (const cmd of otPath.commands) {
+            if (cmd.type === "M" || cmd.type === "L") {
+              prevY = cmd.y;
+            } else if (cmd.type === "C") {
+              clampCubicTop(cmd, prevY, cap);
+              prevY = cmd.y;
+            } else if (cmd.type === "Q") {
+              clampQuadTop(cmd, prevY, cap);
+              prevY = cmd.y;
+            }
+            // Z: prevY stays at current subpath start — not needed here
+          }
+
+          // ── Step D: apply X bearing mode ─────────────────────────────────
+          let onXMin = Infinity,
+            onXMax = -Infinity;
+          for (const cmd of otPath.commands) {
+            if (
+              cmd.type === "M" ||
+              cmd.type === "L" ||
+              cmd.type === "C" ||
+              cmd.type === "Q"
+            ) {
+              if (cmd.x < onXMin) onXMin = cmd.x;
+              if (cmd.x > onXMax) onXMax = cmd.x;
             }
           }
-          return roots;
-        }
-        // Returns t in (0,1) where quadratic dy/dt = 0, or null
-        function quadDyRoot(y0, y1, y2) {
-          const denom = y0 - 2*y1 + y2;
-          if (Math.abs(denom) < 1e-10) return null;
-          const t = (y0 - y1) / denom;
-          return (t > 0 && t < 1) ? t : null;
-        }
-
-        // Binary-search scale of control points until arc peak <= cap.
-        // We scale cp1 and cp2 toward the chord midpoint between p0 and p3.
-        // 16 iterations → precision < 0.001 units, well below integer rounding.
-        function clampCubicTop(cmd, prevY, capVal) {
-          // cmd: the C command. prevY: y of the preceding on-curve point.
-          const y0 = prevY, y3 = cmd.y;
-          // Check if any root overshoots
-          const roots = cubicDyRoots(y0, cmd.y1, cmd.y2, y3);
-          const overshooting = roots.some(t => cubicY(y0, cmd.y1, cmd.y2, y3, t) > capVal);
-          if (!overshooting) return;
-          // Binary search: scale cp1 and cp2 toward the p0–p3 chord
-          let lo = 0, hi = 1;
-          const base1 = cmd.y1, base2 = cmd.y2;
-          // chord value at the parametric position of each cp (approx 1/3, 2/3)
-          const chord1 = y0 + (y3 - y0) / 3;
-          const chord2 = y0 + 2*(y3 - y0) / 3;
-          for (let iter = 0; iter < 16; iter++) {
-            const mid = (lo + hi) / 2;
-            const ty1 = chord1 + (base1 - chord1) * mid;
-            const ty2 = chord2 + (base2 - chord2) * mid;
-            const stillOver = cubicDyRoots(y0, ty1, ty2, y3)
-              .some(t => cubicY(y0, ty1, ty2, y3, t) > capVal);
-            if (stillOver) hi = mid; else lo = mid;
+          if (onXMin === Infinity) {
+            const ib = trueInkBounds(otPath);
+            onXMin = ib.xMin;
+            onXMax = ib.xMax;
           }
-          const finalScale = (lo + hi) / 2;
-          cmd.y1 = chord1 + (base1 - chord1) * finalScale;
-          cmd.y2 = chord2 + (base2 - chord2) * finalScale;
-        }
 
-        function clampQuadTop(cmd, prevY, capVal) {
-          const y0 = prevY, y2 = cmd.y;
-          const t = quadDyRoot(y0, cmd.y1, y2);
-          if (t === null) return;
-          if (quadY(y0, cmd.y1, y2, t) <= capVal) return;
-          // Binary search: pull cp toward chord midpoint
-          let lo = 0, hi = 1;
-          const base1 = cmd.y1;
-          const chord1 = (y0 + y2) / 2;
-          for (let iter = 0; iter < 16; iter++) {
-            const mid = (lo + hi) / 2;
-            const ty1 = chord1 + (base1 - chord1) * mid;
-            const tRoot = quadDyRoot(y0, ty1, y2);
-            const stillOver = tRoot !== null && quadY(y0, ty1, y2, tRoot) > capVal;
-            if (stillOver) hi = mid; else lo = mid;
+          let advW,
+            shiftX = 0;
+          if (bearMode === "zero") {
+            shiftX = -onXMin;
+            advW = Math.max(1, Math.round(onXMax - onXMin));
+          } else if (bearMode === "original") {
+            shiftX = 0;
+            advW = Math.max(1, Math.round(onXMax));
+          } else {
+            shiftX = customLSB - onXMin;
+            advW = Math.round(onXMax + shiftX + customRSB);
           }
-          cmd.y1 = chord1 + (base1 - chord1) * ((lo + hi) / 2);
-        }
 
-        // Walk every segment, tracking the previous on-curve Y
-        let prevY = 0;
-        for (const cmd of otPath.commands) {
-          if (cmd.type === "M" || cmd.type === "L") {
-            prevY = cmd.y;
-          } else if (cmd.type === "C") {
-            clampCubicTop(cmd, prevY, cap);
-            prevY = cmd.y;
-          } else if (cmd.type === "Q") {
-            clampQuadTop(cmd, prevY, cap);
-            prevY = cmd.y;
+          if (Math.abs(shiftX) > 0.01) {
+            for (const cmd of otPath.commands) {
+              if (cmd.x !== undefined) cmd.x += shiftX;
+              if (cmd.x1 !== undefined) cmd.x1 += shiftX;
+              if (cmd.x2 !== undefined) cmd.x2 += shiftX;
+            }
           }
-          // Z: prevY stays at current subpath start — not needed here
+
+          const otg = new opentype.Glyph({
+            name: g.name,
+            index: gi + 1,
+            unicode: cps[gi],
+            advanceWidth: advW,
+            path: otPath,
+          });
+
+          otGlyphs.push(otg);
+          cpToOTGlyph[cps[gi]] = otg;
+
+          const inkFinal = trueInkBounds(otg.path);
+          log(
+            `  ${g.char} · adv=${advW} · ink y=[${inkFinal.yMin.toFixed(1)}, ${inkFinal.yMax.toFixed(1)}] x=[${inkFinal.xMin.toFixed(0)}, ${inkFinal.xMax.toFixed(0)}]`,
+            "info",
+          );
         }
 
-        // ── Step D: apply X bearing mode ─────────────────────────────────
-        let onXMin = Infinity, onXMax = -Infinity;
-        for (const cmd of otPath.commands) {
-          if (cmd.type === "M" || cmd.type === "L" || cmd.type === "C" || cmd.type === "Q") {
-            if (cmd.x < onXMin) onXMin = cmd.x;
-            if (cmd.x > onXMax) onXMax = cmd.x;
-          }
-        }
-        if (onXMin === Infinity) {
-          const ib = trueInkBounds(otPath);
-          onXMin = ib.xMin;
-          onXMax = ib.xMax;
-        }
-
-        let advW, shiftX = 0;
-        if (bearMode === "zero") {
-          shiftX = -onXMin;
-          advW = Math.max(1, Math.round(onXMax - onXMin));
-        } else if (bearMode === "original") {
-          shiftX = 0;
-          advW = Math.max(1, Math.round(onXMax));
-        } else {
-          shiftX = customLSB - onXMin;
-          advW = Math.round(onXMax + shiftX + customRSB);
-        }
-
-        if (Math.abs(shiftX) > 0.01) {
-          for (const cmd of otPath.commands) {
-            if (cmd.x  !== undefined) cmd.x  += shiftX;
-            if (cmd.x1 !== undefined) cmd.x1 += shiftX;
-            if (cmd.x2 !== undefined) cmd.x2 += shiftX;
-          }
-        }
-
-        const otg = new opentype.Glyph({
-          name: g.name,
-          index: gi + 1,
-          unicode: cps[gi],
-          advanceWidth: advW,
-          path: otPath,
-        });
-
-        otGlyphs.push(otg);
-        cpToOTGlyph[cps[gi]] = otg;
-
-        const inkFinal = trueInkBounds(otg.path);
-        log(
-          `  ${g.char} · adv=${advW} · ink y=[${inkFinal.yMin.toFixed(1)}, ${inkFinal.yMax.toFixed(1)}] x=[${inkFinal.xMin.toFixed(0)}, ${inkFinal.xMax.toFixed(0)}]`,
-          "info",
-        );
-      }
-              
         setP(30, "Creating font tables...");
         await tick();
 
@@ -3414,6 +3242,8 @@
           unitsPerEm: 1000, // hardcoded
           ascender: 1000, // hardcoded = cap → hhea.ascender = 1000
           descender: 0, // hardcoded → hhea.descender = 0
+          manufacturer: "GlyphForge",
+          designer: "GlyphForge",
           glyphs: otGlyphs,
         });
 
@@ -3436,7 +3266,10 @@
           // 0x40 = REGULAR bit only. NO USE_TYPO_METRICS (0x80).
           // ArabianNights uses 0x40. With USE_TYPO_METRICS set, Illustrator
           // calculates leading differently and the text frame grows beyond 1in.
-          font.tables.os2.fsSelection = 0x40;
+          font.tables.os2.fsSelection = 0x0040;
+
+          font.tables.os2.usFirstCharIndex = cps[0];
+          font.tables.os2.usLastCharIndex = cps[cps.length - 1];
 
           // Windows GDI requires a non-zero panose classification to treat the font
           // as valid. bFamilyType=2 (Text & Display), all others 0 = "any".
@@ -3448,7 +3281,7 @@
 
           // achVendID: 4 ASCII chars, space-padded. Empty string causes Windows font
           // validation warnings; use a safe placeholder.
-          font.tables.os2.achVendID = "    ";
+          font.tables.os2.achVendID = "GFGE";
 
           // usWeightClass: 400 = Regular. Zero confuses Windows font picker.
           font.tables.os2.usWeightClass = 400;
@@ -3477,6 +3310,7 @@
         // post table: Windows requires isFixedPitch to be 0 or 1 (not undefined).
         // It also needs a valid underlinePosition/underlineThickness.
         if (font.tables.post) {
+          font.tables.post.formatType = 3;
           font.tables.post.isFixedPitch = 0;
           font.tables.post.underlinePosition = -100;
           font.tables.post.underlineThickness = 50;
@@ -3646,20 +3480,25 @@
           font.descender = Math.round(font.descender * scale);
 
           if (font.tables.os2) {
-            font.tables.os2.sTypoAscender =
-              Math.round(font.tables.os2.sTypoAscender * scale);
+            font.tables.os2.sTypoAscender = Math.round(
+              font.tables.os2.sTypoAscender * scale,
+            );
 
-            font.tables.os2.sTypoDescender =
-              Math.round(font.tables.os2.sTypoDescender * scale);
+            font.tables.os2.sTypoDescender = Math.round(
+              font.tables.os2.sTypoDescender * scale,
+            );
 
-            font.tables.os2.usWinAscent =
-              Math.round(font.tables.os2.usWinAscent * scale);
+            font.tables.os2.usWinAscent = Math.round(
+              font.tables.os2.usWinAscent * scale,
+            );
 
-            font.tables.os2.usWinDescent =
-              Math.round(font.tables.os2.usWinDescent * scale);
+            font.tables.os2.usWinDescent = Math.round(
+              font.tables.os2.usWinDescent * scale,
+            );
 
-            font.tables.os2.sCapHeight =
-              Math.round(font.tables.os2.sCapHeight * scale);
+            font.tables.os2.sCapHeight = Math.round(
+              font.tables.os2.sCapHeight * scale,
+            );
           }
 
           trueInkYMax = cap;
@@ -3680,7 +3519,7 @@
           // the constructor's descender:0. Illustrator uses hhea.ascender -
           // hhea.descender as the total line height, so -200 makes glyphs
           // render at 83% of the expected size. We patch it in the binary.
-          
+
           if (kernPairsForInject.length > 0) {
             setP(
               95,
@@ -3697,6 +3536,7 @@
           // ── Patch hhea AFTER kern injection (kern creates a new buffer) ──
           ab = fixCFFFontBBox(ab, cap);
           ab = patchHheaDescender(ab, 0);
+          ab = fixFontChecksums(ab);
 
           // Store everything — export step will download when user is ready
           builtFont = font;
@@ -3893,10 +3733,21 @@
         let cffOff = 0;
         for (let i = 0; i < numTables; i++) {
           const recOff = 12 + i * 16;
-          const tag = String.fromCharCode(data[recOff],data[recOff+1],data[recOff+2],data[recOff+3]);
-          if (tag === 'CFF ') { cffOff = view.getUint32(recOff + 8); break; }
+          const tag = String.fromCharCode(
+            data[recOff],
+            data[recOff + 1],
+            data[recOff + 2],
+            data[recOff + 3],
+          );
+          if (tag === "CFF ") {
+            cffOff = view.getUint32(recOff + 8);
+            break;
+          }
         }
-        if (!cffOff) { log('CFF table not found', 'warn'); return fontAB; }
+        if (!cffOff) {
+          log("CFF table not found", "warn");
+          return fontAB;
+        }
 
         // Navigate to Top Dict data: CFF header → skip Name INDEX → Top Dict INDEX
         const hdrSize = data[cffOff + 2];
@@ -3914,44 +3765,66 @@
 
         pos = skipIndex(pos); // skip Name INDEX → now at Top Dict INDEX
 
-        const tdCount   = (data[pos] << 8) | data[pos + 1];
+        const tdCount = (data[pos] << 8) | data[pos + 1];
         const tdOffSize = data[pos + 2];
-        let off0 = 0, off1 = 0;
-        for (let j = 0; j < tdOffSize; j++) off0 = (off0 << 8) | data[pos + 3 + j];
-        for (let j = 0; j < tdOffSize; j++) off1 = (off1 << 8) | data[pos + 3 + tdOffSize + j];
+        let off0 = 0,
+          off1 = 0;
+        for (let j = 0; j < tdOffSize; j++)
+          off0 = (off0 << 8) | data[pos + 3 + j];
+        for (let j = 0; j < tdOffSize; j++)
+          off1 = (off1 << 8) | data[pos + 3 + tdOffSize + j];
         const tdDataStart = pos + 3 + (tdCount + 1) * tdOffSize;
         const tdStart = tdDataStart + off0 - 1;
-        const tdEnd   = tdDataStart + off1 - 1;
+        const tdEnd = tdDataStart + off1 - 1;
 
         // Walk Top Dict, find op 5 (FontBBox), patch yMax in place
         let p = tdStart;
-        const stack = [], stackPos = [];
+        const stack = [],
+          stackPos = [];
         while (p < tdEnd) {
           const b0 = data[p];
           if (b0 === 29) {
-            stack.push(view.getInt32(p + 1)); stackPos.push(p); p += 5;
+            stack.push(view.getInt32(p + 1));
+            stackPos.push(p);
+            p += 5;
           } else if (b0 === 28) {
-            stack.push(view.getInt16(p + 1)); stackPos.push(p); p += 3;
+            stack.push(view.getInt16(p + 1));
+            stackPos.push(p);
+            p += 3;
           } else if (b0 >= 32 && b0 <= 246) {
-            stack.push(b0 - 139); stackPos.push(p); p += 1;
+            stack.push(b0 - 139);
+            stackPos.push(p);
+            p += 1;
           } else if (b0 >= 247 && b0 <= 250) {
-            stack.push((b0 - 247) * 256 + data[p + 1] + 108); stackPos.push(p); p += 2;
+            stack.push((b0 - 247) * 256 + data[p + 1] + 108);
+            stackPos.push(p);
+            p += 2;
           } else if (b0 >= 251 && b0 <= 254) {
-            stack.push(-((b0 - 251) * 256 + data[p + 1]) - 108); stackPos.push(p); p += 2;
+            stack.push(-((b0 - 251) * 256 + data[p + 1]) - 108);
+            stackPos.push(p);
+            p += 2;
           } else if (b0 === 12) {
-            stack.length = 0; stackPos.length = 0; p += 2;
+            stack.length = 0;
+            stackPos.length = 0;
+            p += 2;
           } else {
             // Operator
             if (b0 === 5 && stack.length >= 4) {
               const yMaxPos = stackPos[3];
               const yMaxVal = stack[3];
               if (yMaxVal === cap) {
-                log(`CFF FontBBox yMax already ${cap}`, 'info');
+                log(`CFF FontBBox yMax already ${cap}`, "info");
               } else {
                 // Determine old encoding byte length
                 const ob = data[yMaxPos];
-                const oldLen = (ob === 28) ? 3 : (ob === 29) ? 5
-                            : (ob >= 247 && ob <= 254) ? 2 : 1;
+                const oldLen =
+                  ob === 28
+                    ? 3
+                    : ob === 29
+                      ? 5
+                      : ob >= 247 && ob <= 254
+                        ? 2
+                        : 1;
 
                 // Encode cap=1000 natively:
                 // 1000 is in range 108-1131 → 2-byte form: b0=250, b1=124
@@ -3961,22 +3834,27 @@
 
                 if (oldLen >= 2) {
                   // Write 2-byte encoding of cap
-                  data[yMaxPos]     = newB0;
+                  data[yMaxPos] = newB0;
                   data[yMaxPos + 1] = newB1;
                   // Fill any remaining old bytes with 0x8B (encodes integer 0 — harmless)
-                  for (let k = 2; k < oldLen; k++) data[yMaxPos + k] = 0x8B;
-                  log(`CFF FontBBox yMax patched: ${yMaxVal} → ${cap}`, 'ok');
+                  for (let k = 2; k < oldLen; k++) data[yMaxPos + k] = 0x8b;
+                  log(`CFF FontBBox yMax patched: ${yMaxVal} → ${cap}`, "ok");
                 } else {
                   // oldLen === 1: old value was in [-107,107], encoded as single byte.
                   // cap=1000 needs 2 bytes but we only have 1 slot.
                   // This cannot happen when cap=1000 since opentype.js would never
                   // store yMax=0 (which is the only 1-byte zero). Log and skip.
-                  log(`CFF FontBBox yMax: 1-byte slot cannot hold ${cap} — skipping`, 'warn');
+                  log(
+                    `CFF FontBBox yMax: 1-byte slot cannot hold ${cap} — skipping`,
+                    "warn",
+                  );
                 }
               }
               break;
             }
-            stack.length = 0; stackPos.length = 0; p += 1;
+            stack.length = 0;
+            stackPos.length = 0;
+            p += 1;
           }
         }
 
@@ -4095,6 +3973,75 @@
         nu8.set(new Uint8Array(kb), fontAB.byteLength + 16);
 
         return newBuf;
+      }
+
+      // ── SFNT CHECKSUM FIXER ─────────────────────────────────────────────
+      // Windows requires valid table checksums and checkSumAdjustment.
+      // After injecting the kern table, all offsets changed, so the original
+      // checksums are invalid. macOS tolerates this. Windows rejects the font.
+
+      function computeTableChecksum(data, offset, length) {
+        const paddedLength = (length + 3) & ~3;
+        let sum = 0;
+
+        for (let i = 0; i < paddedLength; i += 4) {
+          const b0 = i + 0 < length ? data[offset + i + 0] : 0;
+          const b1 = i + 1 < length ? data[offset + i + 1] : 0;
+          const b2 = i + 2 < length ? data[offset + i + 2] : 0;
+          const b3 = i + 3 < length ? data[offset + i + 3] : 0;
+
+          sum =
+            (sum + (((b0 << 24) >>> 0) | (b1 << 16) | (b2 << 8) | b3)) >>> 0;
+        }
+
+        return sum >>> 0;
+      }
+
+      function fixFontChecksums(fontAB) {
+        const data = new Uint8Array(fontAB);
+        const view = new DataView(fontAB);
+
+        const numTables = view.getUint16(4);
+
+        // head table offset
+        let headOffset = 0;
+
+        // Recompute all table checksums
+        for (let i = 0; i < numTables; i++) {
+          const recOff = 12 + i * 16;
+
+          const tag = String.fromCharCode(
+            data[recOff],
+            data[recOff + 1],
+            data[recOff + 2],
+            data[recOff + 3],
+          );
+
+          const offset = view.getUint32(recOff + 8);
+          const length = view.getUint32(recOff + 12);
+
+          if (tag === "head") {
+            headOffset = offset;
+
+            // checkSumAdjustment must be zero while calculating
+            view.setUint32(offset + 8, 0);
+          }
+
+          const checksum = computeTableChecksum(data, offset, length);
+
+          view.setUint32(recOff + 4, checksum);
+        }
+
+        // Whole-font checksum
+        const wholeChecksum = computeTableChecksum(data, 0, fontAB.byteLength);
+
+        const adjustment = (0xb1b0afba - wholeChecksum) >>> 0;
+
+        if (headOffset) {
+          view.setUint32(headOffset + 8, adjustment);
+        }
+
+        return fontAB;
       }
 
       function tick() {
