@@ -4757,25 +4757,27 @@
 
           // ── Build ticked-cp list and prepare for kerning ─────────────────
           const tickedCps = cps.filter((cp) => cpClassActive.get(cp));
-          const tickedGlyphsByCp = new Map(); // cp → opentype glyph (mutated)
-          for (const cp of tickedCps) {
+          // Build glyph objects for EVERY codepoint in the set, not just
+          // ticked ones — kerning now runs ticked-to-all, so we need the
+          // unticked glyphs available too. Ticked glyphs get their paths
+          // shifted to x=0 (matching the hmtx zero-bearings patch);
+          // unticked glyphs keep their source coords verbatim.
+          const allGlyphsByCp = new Map(); // cp → opentype glyph (mutated)
+          for (const cp of cps) {
             const g = srcParsed.charToGlyph(String.fromCodePoint(cp));
             if (!g || !g.path || !g.path.commands || !g.path.commands.length)
               continue;
-            // Clone the glyph + path so we can mutate without affecting
-            // srcParsed (which we don't write back anyway, but cleaner).
             const cloned = Object.create(Object.getPrototypeOf(g));
             Object.assign(cloned, g);
             cloned.path = new opentype.Path();
             cloned.path.commands = g.path.commands.map((c) => ({ ...c }));
-            tickedGlyphsByCp.set(cp, cloned);
+            allGlyphsByCp.set(cp, cloned);
           }
-
-          // Measure ink for each ticked glyph; shift its path to x=0 so the
-          // kerning calc sees the same coordinate space as the final output
-          // (which has the same shift applied via hmtx LSB=ink.xMin → see
-          // buildPatchedSource).
-          for (const [cp, g] of tickedGlyphsByCp) {
+          // Shift only ticked glyphs (they get zero-bearings in the output).
+          // Unticked glyphs keep their source paths verbatim, since the
+          // patched font's hmtx for them is also unchanged.
+          for (const [cp, g] of allGlyphsByCp) {
+            if (!cpClassActive.get(cp)) continue;
             const bb = g.getBoundingBox();
             const dx = -bb.x1;
             const adv = bb.x2 - bb.x1;
@@ -4788,6 +4790,8 @@
             }
             g.advanceWidth = Math.max(1, Math.round(adv));
           }
+          // Compatibility alias — downstream code still references the old name
+          const tickedGlyphsByCp = allGlyphsByCp;
 
           // ── Compute touch kerning ────────────────────────────────────────
           setP_patch(30, "Computing touch kerning for ticked classes...");
@@ -4798,18 +4802,26 @@
           const res = Math.min(8, Math.max(1, isFinite(resRaw) ? resRaw : 2));
           const kernPairs = [];
 
-          if (doKern && tickedGlyphsByCp.size > 1) {
-            const tickedCpsArr = [...tickedGlyphsByCp.keys()];
-            const totalPairs = tickedCpsArr.length * tickedCpsArr.length;
+          if (doKern && tickedCps.length > 0 && allGlyphsByCp.size > 1) {
+            const allCpsArr = [...allGlyphsByCp.keys()];
+            // Count pairs where at least one side is ticked
+            let totalPairs = 0;
+            for (const cpA of allCpsArr) {
+              for (const cpB of allCpsArr) {
+                if (cpClassActive.get(cpA) || cpClassActive.get(cpB))
+                  totalPairs++;
+              }
+            }
             log(
-              `Kern scope (source-patch): ${tickedClassList} · ${totalPairs.toLocaleString()} pairs to evaluate`,
+              `Kern scope (source-patch): ${tickedClassList} kerned to all · ${totalPairs.toLocaleString()} pairs to evaluate`,
               "info",
             );
 
-            // Pre-build profiles for every ticked glyph
+            // Pre-build profiles for every glyph (ticked or not — both
+            // sides are needed for ticked-to-all kerning).
             const profilesByCp = new Map();
             const srcUpm = srcParsed.unitsPerEm || 1000;
-            for (const [cp, g] of tickedGlyphsByCp) {
+            for (const [cp, g] of allGlyphsByCp) {
               try {
                 profilesByCp.set(cp, buildAnalyticalProfiles(g, srcUpm, res));
               } catch (e) {
@@ -4817,18 +4829,21 @@
               }
             }
 
-            // Yield ~every 80ms so the UI doesn't lock
             let lastYield = performance.now();
             let pairsDone = 0;
             const srcAsc = srcParsed.tables.os2
               ? srcParsed.tables.os2.sTypoAscender || srcUpm
               : srcUpm;
 
-            for (const cpA of tickedCpsArr) {
-              const gA = tickedGlyphsByCp.get(cpA);
+            for (const cpA of allCpsArr) {
+              const gA = allGlyphsByCp.get(cpA);
               if (!gA) continue;
-              for (const cpB of tickedCpsArr) {
-                const gB = tickedGlyphsByCp.get(cpB);
+              const aActive = cpClassActive.get(cpA);
+              for (const cpB of allCpsArr) {
+                // Skip pairs where neither side is ticked — those use the
+                // source's GPOS values verbatim.
+                if (!aActive && !cpClassActive.get(cpB)) continue;
+                const gB = allGlyphsByCp.get(cpB);
                 if (!gB) continue;
                 pairsDone++;
                 try {
@@ -5345,9 +5360,8 @@
           const pairsTotal = cps.length * cps.length;
           let eligible = 0;
           for (const cpA of cps) {
-            if (!cpClassActive.get(cpA)) continue;
             for (const cpB of cps) {
-              if (cpClassActive.get(cpB)) eligible++;
+              if (cpClassActive.get(cpA) || cpClassActive.get(cpB)) eligible++;
             }
           }
           const tickedNames = Object.entries(classScope)
@@ -5459,13 +5473,10 @@
             // Outer-loop short-circuit: if the LEFT glyph's class isn't
             // ticked, none of its pairs (with anything) are eligible — skip
             // the entire inner loop instead of testing N times.
-            if (!cpClassActive.get(cps[a])) {
-              done += cps.length;
-              continue;
-            }
+            const aActive = cpClassActive.get(cps[a]);
             for (let b = 0; b < cps.length; b++) {
-              // Right glyph filter (left was already checked above).
-              if (!cpClassActive.get(cps[b])) {
+              // At least one side must be ticked. If neither is, skip.
+              if (!aActive && !cpClassActive.get(cps[b])) {
                 done++;
                 continue;
               }
@@ -6952,7 +6963,7 @@
             // Drop only when BOTH sides are ticked (computed values
             // override). Keep mixed-class pairs so the designer's
             // intentions for e.g. 'a→5' survive.
-            if (tickedGidSet.has(lg) && tickedGidSet.has(rg)) continue;
+            if (tickedGidSet.has(lg) || tickedGidSet.has(rg)) continue;
             sourcePairsToPreserve.push({
               left: lg,
               right: rg,
